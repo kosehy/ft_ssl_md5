@@ -17,7 +17,7 @@
 ## Introduction  
 
 #### About This Project
-This project will focus specifically on crypto graphic hashing algorithms to solidify the understanding of bitwise operations, integer overflow, and one-way functions. A subplot to this project is to emphasize writing clean code that can be efficiently extended.
+This project will focus specifically on cryptographic hashing algorithms to solidify the understanding of bitwise operations, integer overflow, and one-way functions. A subplot to this project is to emphasize writing clean code that can be efficiently extended.
 #### About Me
 Developer, Designer Be creative!! Currently Studying [@42SiliconValley][42]
 
@@ -25,7 +25,9 @@ Developer, Designer Be creative!! Currently Studying [@42SiliconValley][42]
 [42][42] is a free, non profit, project-based, peer-to-peer learning coding school. It originated in France and now has over 20 campuses all over the world. More information can be found [here][42] 
 
 ## Objective  
-
+Learn the crpytographic hasing algorithms
+Solidify understanding of bitwise operations, integer overflow, and one-way functions
+Emphasize writing clean code that can be efficiently extended
 ## Instructions
 Make sure you have the needed [dependencies](#dependencies) before proceeding.
 For instructions and/or greater detail refer to the project [pdf][pdf]
