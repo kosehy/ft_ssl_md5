@@ -32,7 +32,7 @@ For instructions and/or greater detail refer to the project [pdf][pdf]
 - [ ] The executable file must be named ft_ssl
 - [ ] Must submit a Makefile which contain the usual rules and compile the project as necessary
 - [ ] Project must be written in accordance with the Norm
-- Handle usual errors(Segfault, bus error, double free) and openssl related error carefully
+- [ ] Handle usual errors(Segfault, bus error, double free) and openssl related error carefully
 - [ ] Submit an author file at the root of your repository
 - [ ] Allowed the flowing functions: open, close, read, write, malloc, free
 - [ ] ALlowed to use other functions as long as their use is justified
