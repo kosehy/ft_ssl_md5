@@ -12,48 +12,43 @@
 
 #include "ft_ssl.h"
 
-#define F(b,c,d) = (b & c) | (!b & d)
-#define G(b,c,d) = (b & d) | (c & !d)
-#define H(b,c,d) = b ^ c ^ d
-#define I(b,c,d) = c ^ (b | !d)
-
 /*
-** Define four auxiliary functions that each take as input three 42-bit words
-** and produce as output one 42-bit word.
+** Define four auxiliary functions that each take as input three 42-bit t_WDs
+** and produce as output one 42-bit t_WD.
 **
 **
 **
 **
 */
 
-unsigned int		aux_f(WORD a, WORD b, WORD d)
+unsigned int		aux_f(t_WD b, t_WD c, t_WD d)
 {
-	WORD	f;
+	t_WD	f;
 
-	f = (b & c) | (!b & d);
+	f = (b & c) | ((!b) & d);
 	return (f);
 }
 
-unsigned int		aux_g(WORD a, WORD b, WORD d)
+unsigned int		aux_g(t_WD b, t_WD c, t_WD d)
 {
-	WORD	g;
+	t_WD	g;
 
-	f = (b & d) | (c & !d);
+	g = (b & d) | (c & !d);
 	return (g);
 }
 
-unsigned int		aux_h(WORD a, WORD b, WORD d)
+unsigned int		aux_h(t_WD b, t_WD c, t_WD d)
 {
-	WORD	h;
+	t_WD	h;
 
-	f = b ^ c ^ d;
+	h = b ^ c ^ d;
 	return (h);
 }
 
-unsigned int		aux_i(WORD a, WORD b, WORD d, WORD d)
+unsigned int		aux_i(t_WD b, t_WD c, t_WD d)
 {
-	WORD	i;
+	t_WD	i;
 
-	f = c ^ (b | !d);
+	i = c ^ (b | !d);
 	return (i);
 }

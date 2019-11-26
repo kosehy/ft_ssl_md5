@@ -20,30 +20,23 @@
 
 # include "libft.h"
 
-typedef unsigned int	WORD;
+#define ROTLEFT(a,b) ((a << b) | (a >> (32-b)))
 
-WORD					g_x[] =
-{
-	7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22 ,7 ,12, 17, 22, 5, 9, 14, 20,
-	5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 4, 11, 16, 23, 4, 11, 16, 23, 4,
-	11, 16, 23, 4, 11 , 16, 23, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6,
-	10, 15, 15, 21
-};
+#define F(x,y,z) ((x & y) | (~x & z))
+#define G(x,y,z) ((x & z) | (y & ~z))
+#define H(x,y,z) (x ^ y ^ z)
+#define I(x,y,z) (y ^ (x | ~z))
 
-WORD					g_table[] =
-{
-	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee, 0xf57c0faf, 0x4787c62a,
-	0xa8304613, 0xfd469501, 0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be,
-	0x6b901122, 0xfd987193, 0xa679438e, 0x49b40821, 0xf61e2562, 0xc040b340,
-	0x265e5a51, 0xe9b6c7aa, 0xd62f105d, 0x02441453, 0xd8a1e681, 0xe7d3fbc8,
-	0x21e1cde6, 0xc33707d6, 0xf4d50d87, 0x455a14ed, 0xa9e3e905, 0xfcefa3f8,
-	0x676f02d9, 0x8d2a4c8a, 0xfffa3942, 0x8771f681, 0x6d9d6122, 0xfde5380c,
-	0xa4beea44, 0x4bdecfa9, 0xf6bb4b60, 0xbebfbc70, 0x289b7ec6, 0xeaa127fa,
-	0xd4ef3085, 0x04881d05, 0xd9d4d039, 0xe6db99e5, 0x1fa27cf8, 0xc4ac5665,
-	0xf4292244, 0x432aff97, 0xab9423a7, 0xfc93a039, 0x655b59c3, 0x8f0ccc92,
-	0xffeff47d, 0x85845dd1, 0x6fa87e4f, 0xfe2ce6e0, 0xa3014314, 0x4e0811a1,
-	0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0x2ad7d2bb, 0xeb86d391
-};
+#define FF(a,b,c,d,m,s,t) { a += F(b,c,d) + m + t; \
+                            a = b + ROTLEFT(a,s); }
+#define GG(a,b,c,d,m,s,t) { a += G(b,c,d) + m + t; \
+                            a = b + ROTLEFT(a,s); }
+#define HH(a,b,c,d,m,s,t) { a += H(b,c,d) + m + t; \
+                            a = b + ROTLEFT(a,s); }
+#define II(a,b,c,d,m,s,t) { a += I(b,c,d) + m + t; \
+                            a = b + ROTLEFT(a,s); }
+
+typedef unsigned int	t_WD;
 
 typedef struct			s_md5
 {
@@ -51,25 +44,30 @@ typedef struct			s_md5
 	unsigned int		datalen;
 	unsigned long long	bitlen;
 	unsigned int		state[4];
-	WORD				message[16];
+	t_WD				m[16];
+	t_WD				a;
+	t_WD				b;
+	t_WD				c;
+	t_WD				d;
 }						t_md5;
 
 /*
 ** ft_auxiliary.c
 */
 
-WORD					aux_f(WORD a, WORD b, WORD d);
-WORD					aux_g(WORD a, WORD b, WORD d);
-WORD					aux_h(WORD a, WORD b, WORD d);
-WORD					aux_i(WORD a, WORD b, WORD d);
+t_WD					ff(t_WD a, t_WD b, t_WD c, t_WD d, t_WD *m, int s,\
+							t_WD t);
+t_WD					gg(t_WD a, t_WD b, t_WD c, t_WD d, t_WD *m, int s, \
+							t_WD t);
+t_WD					hh(t_WD a, t_WD b, t_WD c, t_WD d, t_WD *m, int s, \
+							t_WD t);
+t_WD					ii(t_WD a, t_WD b, t_WD c, t_WD d, t_WD *m, int s, \
+							t_WD t);
 
 /*
-** ft_auxiliary.c
+** transform.c
 */
 
-WORD		ff(WORD a, WORD b, WORD c, WORD d, WORD *m, int s, WORD t);
-WORD		gg(WORD a, WORD b, WORD c, WORD d, WORD *m, int s, WORD t);
-WORD		hh(WORD a, WORD b, WORD c, WORD d, WORD *m, int s, WORD t);
-WORD		ii(WORD a, WORD b, WORD c, WORD d, WORD *m, int s, WORD t);
+void					transform(t_md5 *md5);
 
 #endif
