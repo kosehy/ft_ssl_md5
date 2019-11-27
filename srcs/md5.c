@@ -80,7 +80,5 @@ int		main(void)
 		out[i + 16] = md5.state[3] >> (i * 8) & 0x000000ff;
 		++i;
 	}
-	i = 0;
-	while (i < 16)
-		printf("out[%d]: %2x\n", i, out[i++]);
+	printf("%.8x%.8x%.8x%.8x", out[0], out[4], out[8], out[12]);
 }
