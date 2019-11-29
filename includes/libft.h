@@ -92,5 +92,6 @@ char				*ft_strtrim(char const *s);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
 int					get_next_line(const int fd, char **line);
+int					ft_printf(const char *format, ...);
 
 #endif

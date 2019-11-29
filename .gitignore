@@ -4,6 +4,9 @@
 # CLion files
 .idea
 cmake-build-debug
+.DS_Store
+._.DS_Store.DS_Store
+._.DS_Store
 
 # text files
 *.txt
