@@ -40,7 +40,7 @@ For instructions and/or greater detail refer to the project [pdf][pdf]
 - [ ] ALlowed to use other functions as long as their use is justified
 ## Mandatory part
 - [ ] Create a program named ft_ssl that will recreate part of the OpenSSL functionality
-- Create the md5 command for ft_Ssl program which include the following flags
+- Create the md5 command for ft_ssl program which include the following flags
 - [ ] -p, echo STDIN to STDOUT and append the checksum to STDOUT
 - [ ] -q, quiet mode
 - [ ] -r, reverse the format of the output
