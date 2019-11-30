@@ -69,5 +69,6 @@ t_WD					ii(t_WD a, t_WD b, t_WD c, t_WD d, t_WD *m, int s, \
 */
 
 void					transform(t_md5 *md5);
+void					simple_transform(t_md5 *md5);
 
 #endif
