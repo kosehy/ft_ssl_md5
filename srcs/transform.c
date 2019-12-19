@@ -52,163 +52,123 @@ t_WD		g_s[64] =
 	6, 10, 15, 21
 };
 
-//void		ff_transform(t_md5 *md5)
-//{
-//	FF(md5->a, md5->b, md5->c, md5->d, md5->m[0],  7,  g_t[0]);
-//	FF(md5->d, md5->a, md5->b, md5->c, md5->m[1],  12, g_t[1]);
-//	FF(md5->c, md5->d, md5->a, md5->b, md5->m[2],  17, g_t[2]);
-//	FF(md5->b, md5->c, md5->d, md5->a, md5->m[3],  22, g_t[3]);
-//	FF(md5->a, md5->b, md5->c, md5->d, md5->m[4],  7,  g_t[4]);
-//	FF(md5->d, md5->a, md5->b, md5->c, md5->m[5],  12, g_t[5]);
-//	FF(md5->c, md5->d, md5->a, md5->b, md5->m[6],  17, g_t[6]);
-//	FF(md5->b, md5->c, md5->d, md5->a, md5->m[7],  22, g_t[7]);
-//	FF(md5->a, md5->b, md5->c, md5->d, md5->m[8],  7,  g_t[8]);
-//	FF(md5->d, md5->a, md5->b, md5->c, md5->m[9],  12, g_t[9]);
-//	FF(md5->c, md5->d, md5->a, md5->b, md5->m[10], 17, g_t[10]);
-//	FF(md5->b, md5->c, md5->d, md5->a, md5->m[11], 22, g_t[11]);
-//	FF(md5->a, md5->b, md5->c, md5->d, md5->m[12], 7,  g_t[12]);
-//	FF(md5->d, md5->a, md5->b, md5->c, md5->m[13], 12, g_t[13]);
-//	FF(md5->c, md5->d, md5->a, md5->b, md5->m[14], 17, g_t[14]);
-//	FF(md5->b, md5->c, md5->d, md5->a, md5->m[15], 22, g_t[15]);
-//}
-//
-//void		gg_transform(t_md5 *md5)
-//{
-//	GG(md5->a, md5->b, md5->c, md5->d, md5->m[1],  5,  g_t[16]);
-//	GG(md5->d, md5->a, md5->b, md5->c, md5->m[6],  9, g_t[17]);
-//	GG(md5->c, md5->d, md5->a, md5->b, md5->m[11],  14, g_t[18]);
-//	GG(md5->b, md5->c, md5->d, md5->a, md5->m[0],  20, g_t[19]);
-//	GG(md5->a, md5->b, md5->c, md5->d, md5->m[5],  5,  g_t[20]);
-//	GG(md5->d, md5->a, md5->b, md5->c, md5->m[10],  9, g_t[21]);
-//	GG(md5->c, md5->d, md5->a, md5->b, md5->m[15],  14, g_t[22]);
-//	GG(md5->b, md5->c, md5->d, md5->a, md5->m[4],  20, g_t[23]);
-//	GG(md5->a, md5->b, md5->c, md5->d, md5->m[9],  5,  g_t[24]);
-//	GG(md5->d, md5->a, md5->b, md5->c, md5->m[14],  9, g_t[25]);
-//	GG(md5->c, md5->d, md5->a, md5->b, md5->m[3], 14, g_t[26]);
-//	GG(md5->b, md5->c, md5->d, md5->a, md5->m[8], 20, g_t[27]);
-//	GG(md5->a, md5->b, md5->c, md5->d, md5->m[13], 5,  g_t[28]);
-//	GG(md5->d, md5->a, md5->b, md5->c, md5->m[2], 9, g_t[29]);
-//	GG(md5->c, md5->d, md5->a, md5->b, md5->m[7], 14, g_t[30]);
-//	GG(md5->b, md5->c, md5->d, md5->a, md5->m[12], 20, g_t[31]);
-//}
-//
-//void		hh_transform(t_md5 *md5)
-//{
-//	HH(md5->a, md5->b, md5->c, md5->d, md5->m[5],  4,  g_t[32]);
-//	HH(md5->d, md5->a, md5->b, md5->c, md5->m[8],  11, g_t[33]);
-//	HH(md5->c, md5->d, md5->a, md5->b, md5->m[11],  16, g_t[34]);
-//	HH(md5->b, md5->c, md5->d, md5->a, md5->m[14],  23, g_t[35]);
-//	HH(md5->a, md5->b, md5->c, md5->d, md5->m[1],  4,  g_t[36]);
-//	HH(md5->d, md5->a, md5->b, md5->c, md5->m[4],  11, g_t[37]);
-//	HH(md5->c, md5->d, md5->a, md5->b, md5->m[7],  16, g_t[38]);
-//	HH(md5->b, md5->c, md5->d, md5->a, md5->m[10],  23, g_t[39]);
-//	HH(md5->a, md5->b, md5->c, md5->d, md5->m[13],  4,  g_t[40]);
-//	HH(md5->d, md5->a, md5->b, md5->c, md5->m[0],  11, g_t[41]);
-//	HH(md5->c, md5->d, md5->a, md5->b, md5->m[3], 16, g_t[42]);
-//	HH(md5->b, md5->c, md5->d, md5->a, md5->m[6], 23, g_t[43]);
-//	HH(md5->a, md5->b, md5->c, md5->d, md5->m[9], 4,  g_t[44]);
-//	HH(md5->d, md5->a, md5->b, md5->c, md5->m[12], 11, g_t[45]);
-//	HH(md5->c, md5->d, md5->a, md5->b, md5->m[15], 16, g_t[46]);
-//	HH(md5->b, md5->c, md5->d, md5->a, md5->m[2], 23, g_t[47]);
-//}
-//
-//void		ii_transform(t_md5 *md5)
-//{
-//	II(md5->a, md5->b, md5->c, md5->d, md5->m[0],  6,  g_t[48]);
-//	II(md5->d, md5->a, md5->b, md5->c, md5->m[7],  10, g_t[49]);
-//	II(md5->c, md5->d, md5->a, md5->b, md5->m[14],  15, g_t[50]);
-//	II(md5->b, md5->c, md5->d, md5->a, md5->m[5],  21, g_t[51]);
-//	II(md5->a, md5->b, md5->c, md5->d, md5->m[12],  6,  g_t[52]);
-//	II(md5->d, md5->a, md5->b, md5->c, md5->m[3],  10, g_t[53]);
-//	II(md5->c, md5->d, md5->a, md5->b, md5->m[10],  15, g_t[54]);
-//	II(md5->b, md5->c, md5->d, md5->a, md5->m[1],  21, g_t[55]);
-//	II(md5->a, md5->b, md5->c, md5->d, md5->m[8],  6,  g_t[56]);
-//	II(md5->d, md5->a, md5->b, md5->c, md5->m[15],  10, g_t[57]);
-//	II(md5->c, md5->d, md5->a, md5->b, md5->m[6], 15, g_t[58]);
-//	II(md5->b, md5->c, md5->d, md5->a, md5->m[13], 21, g_t[59]);
-//	II(md5->a, md5->b, md5->c, md5->d, md5->m[4], 6,  g_t[60]);
-//	II(md5->d, md5->a, md5->b, md5->c, md5->m[11], 10, g_t[61]);
-//	II(md5->c, md5->d, md5->a, md5->b, md5->m[2], 15, g_t[62]);
-//	II(md5->b, md5->c, md5->d, md5->a, md5->m[9], 21, g_t[63]);
-//}
-
-void		process_message(t_md5 *md5)
+void		process_message(t_ssl *ssl)
 {
 	t_WD	i;
-	t_WD	j;
 
 	i = 0;
-	j = 0;
 	while (i < 16)
 	{
-		md5->m[i] = (md5->data[j]) + (md5->data[j + 1] << 8) + \
-					(md5->data[j + 2] << 16) + (md5->data[j + 3] << 24);
+		ssl->m[i] = (ssl->data[i * 4 + 0]) + (ssl->data[i * 4 + 1] << 8) +\
+		(ssl->data[i * 4 + 2] << 16) + (ssl->data[i * 4 + 3] << 24);
 		++i;
-		j += 4;
 	}
 }
 
-//void		transform(t_md5 *md5)
+void		aux_f(t_ssl *ssl, t_WD i)
+{
+	ssl->f = F(ssl->b, ssl->c, ssl->d);
+	ssl->g = i;
+}
+
+void		aux_g(t_ssl *ssl, t_WD i)
+{
+	ssl->f = G(ssl->b, ssl->c, ssl->d);
+	ssl->g = i;
+}
+
+void		aux_h(t_ssl *ssl, t_WD i)
+{
+	ssl->f = H(ssl->b, ssl->c, ssl->d);
+	ssl->g = i;
+}
+
+void		aux_i(t_ssl *ssl, t_WD i)
+{
+	ssl->f = I(ssl->b, ssl->c, ssl->d);
+	ssl->g = i;
+}
+
+//void		simple_transform(t_ssl *ssl)
 //{
-//	process_message(md5);
-//	md5->a = md5->state[0];
-//	md5->b = md5->state[1];
-//	md5->c = md5->state[2];
-//	md5->d = md5->state[3];
-//	ff_transform(md5);
-//	gg_transform(md5);
-//	hh_transform(md5);
-//	ii_transform(md5);
-//	md5->state[0]+= md5->a;
-//	md5->state[1]+= md5->b;
-//	md5->state[2]+= md5->c;
-//	md5->state[3]+= md5->d;
+//	t_WD	i;
+//	t_WD	tmp;
+//
+//	process_message(ssl);
+//	ssl->a = ssl->state[0];
+//	ssl->b = ssl->state[1];
+//	ssl->c = ssl->state[2];
+//	ssl->d = ssl->state[3];
+//	i = 0;
+//	while (i < 64)
+//	{
+//		if (i <= 15)
+//			aux_f(ssl, i);
+//		else if (i >= 16 && i <= 31)
+//			aux_g(ssl, i);
+//		else if (i >= 32 && i <= 47)
+//			aux_h(ssl, i);
+//		else if (i >= 48)
+//			aux_i(ssl, i);
+//		tmp = ssl->d;
+//		ssl->d = ssl->c;
+//		ssl->c = ssl->b;
+//		ssl->b += ROTLEFT((ssl->f + ssl->a + g_t[i] + ssl->m[ssl->g]), g_s[i]);
+//		ssl->a = tmp;
+//		++i;
+//	}
+//	ssl->state[0] += ssl->a;
+//	ssl->state[1] += ssl->b;
+//	ssl->state[2] += ssl->c;
+//	ssl->state[3] += ssl->d;
 //}
 
-void		simple_transform(t_md5 *md5)
+void		simple_transform(t_ssl *ssl)
 {
 	t_WD	i;
 	t_WD	f;
 	t_WD	g;
 	t_WD	tmp;
 
-	process_message(md5);
-	md5->a = md5->state[0];
-	md5->b = md5->state[1];
-	md5->c = md5->state[2];
-	md5->d = md5->state[3];
+	process_message(ssl);
+	ssl->a = ssl->state[0];
+	ssl->b = ssl->state[1];
+	ssl->c = ssl->state[2];
+	ssl->d = ssl->state[3];
 	i = 0;
 	while (i < 64)
 	{
 		if (i <= 15)
 		{
-			f = F(md5->b, md5->c, md5->d);
+			f = F(ssl->b, ssl->c, ssl->d);
 			g = i;
 		}
 		else if (i >= 16 && i <= 31)
 		{
-			f = G(md5->b, md5->c, md5->d);
+			f = G(ssl->b, ssl->c, ssl->d);
 			g = (i * 5 + 1) % 16;
 		}
 		else if (i >= 32 && i <= 47)
 		{
-			f = H(md5->b, md5->c, md5->d);
+			f = H(ssl->b, ssl->c, ssl->d);
 			g = (i * 3 + 5) % 16;
 		}
 		else if (i >= 48)
 		{
-			f = I(md5->b, md5->c, md5->d);
+			f = I(ssl->b, ssl->c, ssl->d);
 			g = (i * 7) % 16;
 		}
-		tmp = md5->d;
-		md5->d = md5->c;
-		md5->c = md5->b;
-		md5->b += ROTLEFT((f + md5->a + g_t[i] + md5->m[g]), g_s[i]);
-		md5->a = tmp;
+		tmp = ssl->d;
+		ssl->d = ssl->c;
+		ssl->c = ssl->b;
+		f += ssl->a + g_t[i] + ssl->m[g];
+		ssl->b += ROTLEFT(f, g_s[i]);
+		printf("ssl->b : %u\n", ssl->b);
+		ssl->a = tmp;
 		++i;
 	}
-	md5->state[0] += md5->a;
-	md5->state[1] += md5->b;
-	md5->state[2] += md5->c;
-	md5->state[3] += md5->d;
+	ssl->state[0] += ssl->a;
+	ssl->state[1] += ssl->b;
+	ssl->state[2] += ssl->c;
+	ssl->state[3] += ssl->d;
 }

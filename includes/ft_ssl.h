@@ -20,6 +20,11 @@
 
 # include "libft.h"
 
+/*
+** Define four auxiliary functions that each take as input three 42-bit t_WDs
+** and produce as output one 42-bit t_WD.
+*/
+
 #define ROTLEFT(a,b) ((a << b) | (a >> (32-b)))
 
 #define F(x,y,z) ((x & y) | (~x & z))
@@ -27,18 +32,9 @@
 #define H(x,y,z) (x ^ y ^ z)
 #define I(x,y,z) (y ^ (x | ~z))
 
-#define FF(a,b,c,d,m,s,t) { a += F(b,c,d) + m + t; \
-                            a = b + ROTLEFT(a,s); }
-#define GG(a,b,c,d,m,s,t) { a += G(b,c,d) + m + t; \
-                            a = b + ROTLEFT(a,s); }
-#define HH(a,b,c,d,m,s,t) { a += H(b,c,d) + m + t; \
-                            a = b + ROTLEFT(a,s); }
-#define II(a,b,c,d,m,s,t) { a += I(b,c,d) + m + t; \
-                            a = b + ROTLEFT(a,s); }
-
 typedef unsigned int	t_WD;
 
-typedef struct			s_md5
+typedef struct			s_ssl
 {
 	unsigned char		data[64];
 	unsigned int		datalen;
@@ -49,7 +45,12 @@ typedef struct			s_md5
 	t_WD				b;
 	t_WD				c;
 	t_WD				d;
-}						t_md5;
+	t_WD				f;
+	t_WD				g;
+	t_WD 				flag[5];
+	int 				n_file;
+	char 				*stdin;
+}						t_ssl;
 
 /*
 ** ft_auxiliary.c
@@ -68,7 +69,7 @@ t_WD					ii(t_WD a, t_WD b, t_WD c, t_WD d, t_WD *m, int s, \
 ** transform.c
 */
 
-void					transform(t_md5 *md5);
-void					simple_transform(t_md5 *md5);
+void					transform(t_ssl *md5);
+void					simple_transform(t_ssl *md5);
 
 #endif
