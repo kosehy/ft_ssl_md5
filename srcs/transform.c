@@ -27,7 +27,7 @@ t_WD		g_t[64] =
 	0x289b7ec6, 0xeaa127fa, 0xd4ef3085, 0x04881d05,
 	0xd9d4d039, 0xe6db99e5, 0x1fa27cf8, 0xc4ac5665,
 	0xf4292244, 0x432aff97, 0xab9423a7, 0xfc93a039,
-	0x655b59c3, 0x8f0ccc92,	0xffeff47d, 0x85845dd1,
+	0x655b59c3, 0x8f0ccc92, 0xffeff47d, 0x85845dd1,
 	0x6fa87e4f, 0xfe2ce6e0, 0xa3014314, 0x4e0811a1,
 	0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391
 };
@@ -51,6 +51,43 @@ t_WD		g_s[64] =
 	6, 10, 15, 21,
 	6, 10, 15, 21
 };
+
+/* Process each 16-word block. */
+//For i = 0 to N/16-1 do
+//	/* Copy block i into X. */
+//	For j = 0 to 15 do
+//	Set X[j] to M[i*16+j].
+//	end /* of loop on j */
+
+void		*make_zero(void *s, size_t n)
+{
+	unsigned char	*i;
+	size_t			b;
+
+	b = 0;
+	i = (unsigned char *)s;
+	while (b < n)
+	{
+		i[b] = '\0';
+		++b;
+	}
+	return (s);
+}
+
+//static int	padding_md5(unsigned char *str, int len, t_ssl *ssl)
+//{
+//	ssl->datalen = len + 1;
+//	while (ssl->datalen % 64 != 56)
+//		ssl->datalen++;
+//	if (!(ssl->byte = malloc(ssl->datalen + 64)))
+//		return (-1);
+//	ssl->byte = make_zero(ssl->byte, ssl->datalen + 64);
+//	ft_strcpy((char*)ssl->byte + len, (const char *)str);
+//	*(t_WD*)(ssl->byte + len) = 0x80;
+//	*(t_WD*)(ssl->byte + ssl->datalen) = (t_WD)(8 * len);
+//	ssl->str = 0;
+//	return (0);
+//}
 
 void		process_message(t_ssl *ssl)
 {
@@ -89,39 +126,13 @@ void		aux_i(t_ssl *ssl, t_WD i)
 	ssl->g = i;
 }
 
-//void		simple_transform(t_ssl *ssl)
-//{
-//	t_WD	i;
-//	t_WD	tmp;
-//
-//	process_message(ssl);
-//	ssl->a = ssl->state[0];
-//	ssl->b = ssl->state[1];
-//	ssl->c = ssl->state[2];
-//	ssl->d = ssl->state[3];
-//	i = 0;
-//	while (i < 64)
-//	{
-//		if (i <= 15)
-//			aux_f(ssl, i);
-//		else if (i >= 16 && i <= 31)
-//			aux_g(ssl, i);
-//		else if (i >= 32 && i <= 47)
-//			aux_h(ssl, i);
-//		else if (i >= 48)
-//			aux_i(ssl, i);
-//		tmp = ssl->d;
-//		ssl->d = ssl->c;
-//		ssl->c = ssl->b;
-//		ssl->b += ROTLEFT((ssl->f + ssl->a + g_t[i] + ssl->m[ssl->g]), g_s[i]);
-//		ssl->a = tmp;
-//		++i;
-//	}
-//	ssl->state[0] += ssl->a;
-//	ssl->state[1] += ssl->b;
-//	ssl->state[2] += ssl->c;
-//	ssl->state[3] += ssl->d;
-//}
+t_WD 		rot_left(t_WD x, t_WD n)
+{
+	t_WD	tmp;
+
+	tmp = (x << n) | (x >> (32 - n));
+	return (tmp);
+}
 
 void		simple_transform(t_ssl *ssl)
 {
@@ -161,9 +172,15 @@ void		simple_transform(t_ssl *ssl)
 		tmp = ssl->d;
 		ssl->d = ssl->c;
 		ssl->c = ssl->b;
-		f += ssl->a + g_t[i] + ssl->m[g];
-		ssl->b += ROTLEFT(f, g_s[i]);
-		printf("ssl->b : %u\n", ssl->b);
+		printf("i        : %d\n", i);
+		printf("ssl->b   : %u\n", ssl->b);
+		printf("ssl->a   : %u\n", ssl->a);
+		printf("f        : %u\n", f);
+		printf("g_t[i]   : %u\n", g_t[i]);
+		printf("ssl->m[g]: %u\n", ssl->m[g]);
+		printf("g_s[i]   : %u\n", g_s[i]);
+		ssl->b += rot_left(ssl->a + f + g_t[i] + ssl->m[g], g_s[i]);
+		ft_printf("ssl->b : %u\n", ssl->b);
 		ssl->a = tmp;
 		++i;
 	}

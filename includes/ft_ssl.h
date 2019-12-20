@@ -47,9 +47,13 @@ typedef struct			s_ssl
 	t_WD				d;
 	t_WD				f;
 	t_WD				g;
-	t_WD 				flag[5];
+	int 				flag[5];
 	int 				n_file;
+	int 				pars;
+	int 				fd;
+	int 				str;
 	char 				*stdin;
+	char				*byte;
 }						t_ssl;
 
 /*
