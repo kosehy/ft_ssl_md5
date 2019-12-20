@@ -25,13 +25,6 @@
 ** and produce as output one 42-bit t_WD.
 */
 
-#define ROTLEFT(a,b) ((a << b) | (a >> (32-b)))
-
-#define F(x,y,z) ((x & y) | (~x & z))
-#define G(x,y,z) ((x & z) | (y & ~z))
-#define H(x,y,z) (x ^ y ^ z)
-#define I(x,y,z) (y ^ (x | ~z))
-
 typedef unsigned int	t_WD;
 
 typedef struct			s_ssl
@@ -60,20 +53,31 @@ typedef struct			s_ssl
 ** ft_auxiliary.c
 */
 
-t_WD					ff(t_WD a, t_WD b, t_WD c, t_WD d, t_WD *m, int s,\
-							t_WD t);
-t_WD					gg(t_WD a, t_WD b, t_WD c, t_WD d, t_WD *m, int s, \
-							t_WD t);
-t_WD					hh(t_WD a, t_WD b, t_WD c, t_WD d, t_WD *m, int s, \
-							t_WD t);
-t_WD					ii(t_WD a, t_WD b, t_WD c, t_WD d, t_WD *m, int s, \
-							t_WD t);
+t_WD 					rot_left(t_WD x, t_WD n);
+void					aux_f(t_ssl *ssl, t_WD i);
+void					aux_g(t_ssl *ssl, t_WD i);
+void					aux_h(t_ssl *ssl, t_WD i);
+void					aux_i(t_ssl *ssl, t_WD i);
 
 /*
 ** transform.c
 */
 
-void					transform(t_ssl *md5);
 void					simple_transform(t_ssl *md5);
+
+/*
+** print.c
+*/
+
+void					gnl_ignore_nl(int fd, char **ptr);
+int 					print_s(t_ssl *ssl, int ac, char **av);
+void	 				file_rotat(t_ssl *ssl, char **av);
+
+/*
+** md5.c
+*/
+
+void	 				do_md5(char *str, t_ssl *ssl);
+void					decision_maker(t_ssl *ssl, int ac, char **av);
 
 #endif

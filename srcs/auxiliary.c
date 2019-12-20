@@ -12,3 +12,34 @@
 
 #include "ft_ssl.h"
 
+t_WD 					rot_left(t_WD x, t_WD n)
+{
+	t_WD	tmp;
+
+	tmp = (x << n) | (x >> (32 - n));
+	return (tmp);
+}
+
+void					aux_f(t_ssl *ssl, t_WD i)
+{
+	ssl->f = (ssl->b & ssl->c) | (~ssl->b & ssl->d);
+	ssl->g = i;
+}
+
+void					aux_g(t_ssl *ssl, t_WD i)
+{
+	ssl->f = (ssl->b & ssl->d) | (ssl->c & ~ssl->d);
+	ssl->g = (i * 5 + 1) % 16;
+}
+
+void					aux_h(t_ssl *ssl, t_WD i)
+{
+	ssl->f = (ssl->b ^ ssl->c ^ ssl->d);
+	ssl->g = (i * 3 + 5) % 16;
+}
+
+void					aux_i(t_ssl *ssl, t_WD i)
+{
+	ssl->f = ssl->c ^ (ssl->b | ~ssl->d);
+	ssl->g = (i * 7) % 16;
+}
