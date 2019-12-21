@@ -34,10 +34,9 @@ void					gnl_ignore_nl(int fd, char **ptr)
 	ptr[0] = str;
 }
 
-
 void					no_rotation(t_ssl *ssl, char **av)
 {
-	if (!ssl->flag[2])
+	if (!ssl->q)
 	{
 		if (ft_strcmp(av[1], "sha256") == 0)
 			ft_printf("SHA256 (\"");
@@ -58,11 +57,8 @@ void 					rotate_s(t_ssl *ssl, char **av)
 	if (ft_strcmp(av[1], "sha256") == 0)
 		do_md5(av[ssl->pars], ssl);
 	else
-	{
-		ft_printf("MD5 (\"%s\")= ", av[ssl->pars]);
 		do_md5(av[ssl->pars], ssl);
-	}
-	if (!ssl->flag[2])
+	if (!ssl->q)
 		ft_printf(" \"%s\"\n", av[ssl->pars]);
 	else
 		ft_printf("\n");
@@ -70,18 +66,18 @@ void 					rotate_s(t_ssl *ssl, char **av)
 
 int 					print_s(t_ssl *ssl, int ac, char **av)
 {
-	if (ft_strcmp("-p", av[ssl->flag[0]]) == 0)
-		ssl->flag[1] = 1;
-	else if (ft_strcmp("-q", av[ssl->flag[0]]) == 0)
-		ssl->flag[2] = 1;
-	else if (ft_strcmp("-r", av[ssl->flag[0]]) == 0)
-		ssl->flag[3] = 1;
-	else if (ft_strcmp("-s", av[ssl->flag[0]]) == 0)
+	if (ft_strcmp("-p", av[ssl->pars]) == 0)
+		ssl->p = 1;
+	else if (ft_strcmp("-q", av[ssl->pars]) == 0)
+		ssl->q = 1;
+	else if (ft_strcmp("-r", av[ssl->pars]) == 0)
+		ssl->r = 1;
+	else if (ft_strcmp("-s", av[ssl->pars]) == 0)
 	{
 		ssl->pars++;
 		if (ssl->pars < ac)
 		{
-			if (!ssl->flag[3])
+			if (!ssl->r)
 				no_rotation(ssl, av);
 			else
 				rotate_s(ssl, av);
@@ -95,7 +91,7 @@ int 					print_s(t_ssl *ssl, int ac, char **av)
 
 static void 			file_no_rotat(t_ssl *ssl, char **av)
 {
-	if (!ssl->flag[2])
+	if (!ssl->q)
 	{
 		if (ft_strcmp(av[1], "sha256") == 0)
 			ft_printf("SHA256(");
@@ -133,7 +129,7 @@ void			 		file_rotat(t_ssl *ssl, char **av)
 	if (bad_file(ssl, av) == -1)
 		return ;
 	gnl_ignore_nl(ssl->fd, &ssl->stdin);
-	if (!ssl->flag[3])
+	if (!ssl->r)
 		file_no_rotat(ssl, av);
 	else
 	{
@@ -141,7 +137,7 @@ void			 		file_rotat(t_ssl *ssl, char **av)
 			do_md5(ssl->stdin, ssl);
 		else
 			do_md5(ssl->stdin, ssl);
-		if (!ssl->flag[2])
+		if (!ssl->q)
 			ft_printf(" %s\n", av[ssl->pars]);
 		else
 			ft_printf("\n");

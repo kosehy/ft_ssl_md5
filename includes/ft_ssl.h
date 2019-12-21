@@ -30,7 +30,7 @@ typedef unsigned int	t_WD;
 typedef struct			s_ssl
 {
 	unsigned char		data[64];
-	unsigned int		datalen;
+	int					datalen;
 	unsigned long long	bitlen;
 	unsigned int		state[4];
 	t_WD				m[16];
@@ -40,7 +40,12 @@ typedef struct			s_ssl
 	t_WD				d;
 	t_WD				f;
 	t_WD				g;
+	t_WD 				*t;
 	int 				flag[5];
+	int					p;
+	int					q;
+	int					r;
+	int 				s;
 	int 				n_file;
 	int 				pars;
 	int 				fd;
@@ -63,7 +68,7 @@ void					aux_i(t_ssl *ssl, t_WD i);
 ** transform.c
 */
 
-void					simple_transform(t_ssl *md5);
+int						md5(t_ssl *md5, unsigned char *str, int len);
 
 /*
 ** print.c
@@ -77,6 +82,7 @@ void	 				file_rotat(t_ssl *ssl, char **av);
 ** md5.c
 */
 
+void					md5_buffer_init(t_ssl *ssl);
 void	 				do_md5(char *str, t_ssl *ssl);
 void					decision_maker(t_ssl *ssl, int ac, char **av);
 

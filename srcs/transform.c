@@ -52,20 +52,7 @@ t_WD		g_s[64] =
 	6, 10, 15, 21
 };
 
-void		process_message(t_ssl *ssl)
-{
-	t_WD	i;
-
-	i = 0;
-	while (i < 16)
-	{
-		ssl->m[i] = (ssl->data[i * 4 + 0]) + (ssl->data[i * 4 + 1] << 8) +\
-		(ssl->data[i * 4 + 2] << 16) + (ssl->data[i * 4 + 3] << 24);
-		++i;
-	}
-}
-
-void		round(t_ssl *ssl, int i)
+void		round_word(t_ssl *ssl, int i)
 {
 	t_WD	tmp;
 
@@ -80,33 +67,72 @@ void		round(t_ssl *ssl, int i)
 	tmp = ssl->d;
 	ssl->d = ssl->c;
 	ssl->c = ssl->b;
-	printf("i        : %d\n", i);
-	printf("ssl->b   : %u\n", ssl->b);
-	printf("ssl->a   : %u\n", ssl->a);
-	printf("ssl->f   : %u\n", ssl->f);
-	printf("g_t[i]   : %u\n", g_t[i]);
-	printf("ssl->m[g]: %u\n", ssl->m[ssl->g]);
-	printf("g_s[i]   : %u\n", g_s[i]);
-	ssl->b += rot_left(ssl->a + ssl->f + g_t[i] + ssl->m[ssl->g], g_s[i]);
-	ft_printf("ssl->b : %u\n", ssl->b);
+//	printf("i        : %d\n", i);
+//	printf("ssl->b   : %u\n", ssl->b);
+//	printf("ssl->a   : %u\n", ssl->a);
+//	printf("ssl->f   : %u\n", ssl->f);
+//	printf("g_t[i]   : %u\n", g_t[i]);
+//	printf("ssl->m[g]: %u\n", ssl->t[ssl->g]);
+//	printf("g_s[i]   : %u\n", g_s[i]);
+	ssl->b += rot_left(ssl->a + ssl->f + g_t[i] + ssl->t[ssl->g], g_s[i]);
+//	ft_printf("ssl->b : %u\n", ssl->b);
 	ssl->a = tmp;
 	++i;
 }
 
-void		simple_transform(t_ssl *ssl)
+void		*void_bzero(void *s, size_t n)
+{
+	unsigned char	*ptr;
+	size_t 			b;
+
+	b = 0;
+	ptr = (unsigned char*)s;
+	while (b < n)
+	{
+		ptr[b] = '\0';
+		++b;
+	}
+	return (s);
+}
+
+static int	padding_md5(unsigned char *str, int len, t_ssl *ssl)
+{
+	md5_buffer_init(ssl);
+	ssl->datalen = len + 1;
+	while (ssl->datalen % 64 != 56)
+		ssl->datalen++;
+	if (!(ssl->byte = malloc(ssl->datalen + 64)))
+		return (-1);
+	ssl->byte = void_bzero(ssl->byte, ssl->datalen + 64);
+	ft_strcpy((char *)ssl->byte, (char *)str);
+	*(t_WD *)(ssl->byte + len) = 0x80;
+	*(t_WD *)(ssl->byte + ssl->datalen) = (t_WD)(8 * len);
+	ssl->str = 0;
+	return (0);
+}
+
+int			md5(t_ssl *ssl, unsigned char * str, int len)
 {
 	int	i;
 
-	process_message(ssl);
-	ssl->a = ssl->state[0];
-	ssl->b = ssl->state[1];
-	ssl->c = ssl->state[2];
-	ssl->d = ssl->state[3];
-	i = 0;
-	while (i < 64)
-		round(ssl, i++);
-	ssl->state[0] += ssl->a;
-	ssl->state[1] += ssl->b;
-	ssl->state[2] += ssl->c;
-	ssl->state[3] += ssl->d;
+	if (padding_md5(str, len, ssl) == -1)
+		return (-1);
+	while (ssl->str < ssl->datalen)
+	{
+		ssl->t = (t_WD *)(ssl->byte + ssl->str);
+		ssl->a = ssl->state[0];
+		ssl->b = ssl->state[1];
+		ssl->c = ssl->state[2];
+		ssl->d = ssl->state[3];
+		i = -1;
+		while (++i < 64)
+			round_word(ssl, i);
+		ssl->state[0] += ssl->a;
+		ssl->state[1] += ssl->b;
+		ssl->state[2] += ssl->c;
+		ssl->state[3] += ssl->d;
+		ssl->str += 64;
+	}
+	free(ssl->byte);
+	return (0);
 }

@@ -14,65 +14,11 @@
 
 void			md5_buffer_init(t_ssl *ssl)
 {
-	ssl->datalen = 0;
-	ssl->bitlen = 0;
 	ssl->state[0] = 0x67452301;
 	ssl->state[1] = 0xefcdab89;
 	ssl->state[2] = 0x98badcfe;
 	ssl->state[3] = 0x10325476;
 }
-
-void			check_ssl(t_ssl *ssl, char *str)
-{
-	t_WD i;
-
-	i = 0;
-	while (i < ft_strlen(str))
-	{
-		ssl->data[ssl->datalen] = str[i];
-		ssl->datalen++;
-		if (ssl->datalen == 64)
-		{
-			simple_transform(ssl);
-			ssl->bitlen += 512;
-			ssl->datalen = 0;
-		}
-		++i;
-	}
-	i = ssl->datalen;
-	if (ssl->datalen < 56)
-	{
-		ssl->data[i++] = 0x80;
-		while (i < 56)
-		{
-			ssl->data[i] = 0x00;
-			++i;
-		}
-	}
-	else if (ssl->datalen >= 56)
-	{
-		ssl->data[i] = 0x80;
-		while (i < 64)
-		{
-			ssl->data[i] = 0x00;
-			++i;
-		}
-		simple_transform(ssl);
-		ft_memset(ssl->data, 0, 56);
-	}
-	ssl->bitlen += ssl->datalen * 8;
-	ssl->data[56] = ssl->bitlen;
-	ssl->data[57] = ssl->bitlen >> 8;
-	ssl->data[58] = ssl->bitlen >> 16;
-	ssl->data[59] = ssl->bitlen >> 24;
-	ssl->data[60] = ssl->bitlen >> 32;
-	ssl->data[61] = ssl->bitlen >> 40;
-	ssl->data[62] = ssl->bitlen >> 48;
-	ssl->data[63] = ssl->bitlen >> 56;
-	simple_transform(ssl);
-}
-
-
 t_WD	revers_WD(t_WD n)
 {
 	return ((n >> 24) | ((n & 0xff0000) >> 8) |
@@ -128,29 +74,30 @@ char				*ft_itoa_base_extra(uint32_t n, int base)
 
 static void 		check_flag(t_ssl *ssl, int ac, char **av)
 {
-	int i = 1;
+	int i = 2;
+	ssl->p = 0;
+	ssl->q = 0;
+	ssl->r = 0;
+	ssl->s = 0;
 
-	ssl->flag[0] = 2;
-	while (i < 5)
-		ssl->flag[i++] = 0;
-	while (ssl->flag[0] < ac)
+	while (i < ac)
 	{
-		if (ft_strcmp("-p", av[ssl->flag[0]]) == 0)
-			ssl->flag[1] = 1;
-		else if (ft_strcmp("-q", av[ssl->flag[0]]) == 0)
-			ssl->flag[2] = 1;
-		else if (ft_strcmp("-r", av[ssl->flag[0]]) == 0)
-			ssl->flag[3] = 1;
-		else if (ft_strcmp("-s", av[ssl->flag[0]]) == 0)
+		if (ft_strcmp("-p", av[i]) == 0)
+			ssl->p = 1;
+		else if (ft_strcmp("-q", av[i]) == 0)
+			ssl->q = 1;
+		else if (ft_strcmp("-r", av[i]) == 0)
+			ssl->r = 1;
+		else if (ft_strcmp("-s", av[i]) == 0)
 		{
-			ssl->flag[0]++;
-			ssl->flag[4]++;
+			i++;
+			ssl->s++;
 		}
 		else
 			break ;
-		ssl->flag[0]++;
+		i++;
 	}
-	ssl->n_file = ssl->flag[0] - ac;
+	ssl->n_file = i - ac;
 }
 
 char 				*add_zero(char *str)
@@ -170,8 +117,8 @@ void 				do_md5(char *str, t_ssl *ssl)
 {
 	char *tmp;
 
-	md5_buffer_init(ssl);
-	check_ssl(ssl, str);
+	if (md5(ssl, (uint8_t *)str, ft_strlen(str)) == -1)
+		return ;
 	tmp = ft_itoa_base_extra(revers_WD(ssl->state[0]), 16);
 	add_zero(tmp);
 	ft_putstr(tmp);
@@ -193,10 +140,10 @@ void 				do_md5(char *str, t_ssl *ssl)
 void				decision_maker(t_ssl *ssl, int ac, char **av)
 {
 	check_flag(ssl, ac, av);
-	if (ssl->flag[1] || (!ssl->n_file && !ssl->flag[2]))
+	if (ssl->p || (!ssl->n_file && !ssl->s))
 	{
 		gnl_ignore_nl(0, &ssl->stdin);
-		if (ssl->flag[1])
+		if (ssl->p)
 			ft_printf("%s", ssl->stdin);
 		if (ft_strcmp(av[1], "sha256") == 0)
 			do_md5(ssl->stdin, ssl);
