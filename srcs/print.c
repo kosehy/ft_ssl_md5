@@ -34,50 +34,20 @@ void					gnl_ignore_nl(int fd, char **ptr)
 	ptr[0] = str;
 }
 
-void					no_rotation(t_ssl *ssl, char **av)
-{
-	if (!ssl->q)
-	{
-		if (ft_strcmp(av[1], "sha256") == 0)
-			ft_printf("SHA256 (\"");
-		else
-			ft_printf("MD5 (\"");
-		ft_putstr(av[ssl->pars]);
-		ft_printf("\")= ");
-	}
-	if (ft_strcmp(av[1], "sha256") == 0)
-		do_md5(av[ssl->pars], ssl);
-	else
-		do_md5(av[ssl->pars], ssl);
-	ft_printf("\n");
-}
-
-void 					rotate_s(t_ssl *ssl, char **av)
-{
-	if (ft_strcmp(av[1], "sha256") == 0)
-		do_md5(av[ssl->pars], ssl);
-	else
-		do_md5(av[ssl->pars], ssl);
-	if (!ssl->q)
-		ft_printf(" \"%s\"\n", av[ssl->pars]);
-	else
-		ft_printf("\n");
-}
-
 int 					print_s(t_ssl *ssl, int ac, char **av)
 {
 	if (ft_strcmp("-p", av[ssl->pars]) == 0)
-		ssl->p = 1;
+		ssl->flag |= pFlag;
 	else if (ft_strcmp("-q", av[ssl->pars]) == 0)
-		ssl->q = 1;
+		ssl->flag |= qFlag;
 	else if (ft_strcmp("-r", av[ssl->pars]) == 0)
-		ssl->r = 1;
+		ssl->flag |= rFlag;
 	else if (ft_strcmp("-s", av[ssl->pars]) == 0)
 	{
 		ssl->pars++;
 		if (ssl->pars < ac)
 		{
-			if (!ssl->r)
+			if (!(ssl->flag & rFlag))
 				no_rotation(ssl, av);
 			else
 				rotate_s(ssl, av);
@@ -89,60 +59,20 @@ int 					print_s(t_ssl *ssl, int ac, char **av)
 	return (0);
 }
 
-static void 			file_no_rotat(t_ssl *ssl, char **av)
-{
-	if (!ssl->q)
-	{
-		if (ft_strcmp(av[1], "sha256") == 0)
-			ft_printf("SHA256(");
-		else
-			ft_printf("MD5(");
-		ft_printf("%s)= ", av[ssl->pars]);
-	}
-	if (ft_strcmp(av[1], "sha256") == 0)
-		do_md5(ssl->stdin, ssl);
-	else
-		do_md5(ssl->stdin, ssl);
-	ft_printf("\n");
-}
-
 int 					bad_file(t_ssl *ssl, char **av)
 {
 	if ((ssl->fd = open(av[ssl->pars], O_RDWR)) < 0)
 	{
 		if (ft_strcmp(av[1], "sha256") == 0)
-			ft_printf("ft_ssl: sha256: ");
+			ft_putstr("ft_ssl: sha256: ");
 		if (ft_strcmp(av[1], "sha224") == 0)
-			ft_printf("ft_ssl: sha224: ");
+			ft_putstr("ft_ssl: sha224: ");
 		else
-			ft_printf("ft_ssl: md5: ");
-		ft_printf("%s", av[ssl->pars]);
-		ft_printf(": No such file or directory\n");
+			ft_putstr("ft_ssl: md5: ");
+		ft_putstr(av[ssl->pars]);
+		ft_putstr(": No such file or directory\n");
 		ssl->pars++;
 		return (-1);
 	}
 	return (0);
-}
-
-void			 		file_rotat(t_ssl *ssl, char **av)
-{
-	if (bad_file(ssl, av) == -1)
-		return ;
-	gnl_ignore_nl(ssl->fd, &ssl->stdin);
-	if (!ssl->r)
-		file_no_rotat(ssl, av);
-	else
-	{
-		if (ft_strcmp(av[1], "sha256") == 0)
-			do_md5(ssl->stdin, ssl);
-		else
-			do_md5(ssl->stdin, ssl);
-		if (!ssl->q)
-			ft_printf(" %s\n", av[ssl->pars]);
-		else
-			ft_printf("\n");
-	}
-	free(ssl->stdin);
-	close(ssl->fd);
-	ssl->pars++;
 }

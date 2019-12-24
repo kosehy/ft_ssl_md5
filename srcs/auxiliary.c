@@ -20,6 +20,14 @@ t_WD 					rot_left(t_WD x, t_WD n)
 	return (tmp);
 }
 
+t_WD 					rot_right(t_WD x, t_WD n)
+{
+	t_WD	tmp;
+
+	tmp = (x >> n) | (x << (32 - n));
+	return (tmp);
+}
+
 void					aux_f(t_ssl *ssl, t_WD i)
 {
 	ssl->f = (ssl->b & ssl->c) | (~ssl->b & ssl->d);

@@ -97,7 +97,10 @@ void		*void_bzero(void *s, size_t n)
 
 static int	padding_md5(unsigned char *str, int len, t_ssl *ssl)
 {
-	md5_buffer_init(ssl);
+	ssl->state[0] = 0x67452301;
+	ssl->state[1] = 0xefcdab89;
+	ssl->state[2] = 0x98badcfe;
+	ssl->state[3] = 0x10325476;
 	ssl->datalen = len + 1;
 	while (ssl->datalen % 64 != 56)
 		ssl->datalen++;

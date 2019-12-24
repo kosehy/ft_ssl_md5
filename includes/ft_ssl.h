@@ -20,6 +20,10 @@
 
 # include "libft.h"
 
+# define pFlag			(1 << 1)
+# define qFlag			(1 << 2)
+# define rFlag			(1 << 3)
+
 /*
 ** Define four auxiliary functions that each take as input three 42-bit t_WDs
 ** and produce as output one 42-bit t_WD.
@@ -29,22 +33,20 @@ typedef unsigned int	t_WD;
 
 typedef struct			s_ssl
 {
-	unsigned char		data[64];
 	int					datalen;
-	unsigned long long	bitlen;
-	unsigned int		state[4];
-	t_WD				m[16];
+	unsigned int		state[8];
 	t_WD				a;
 	t_WD				b;
 	t_WD				c;
 	t_WD				d;
+	t_WD				e;
 	t_WD				f;
 	t_WD				g;
+	t_WD				h;
+	t_WD 				s_data[6];
 	t_WD 				*t;
-	int 				flag[5];
-	int					p;
-	int					q;
-	int					r;
+	t_WD 				*byte_32;
+	int 				flag;
 	int 				s;
 	int 				n_file;
 	int 				pars;
@@ -59,6 +61,7 @@ typedef struct			s_ssl
 */
 
 t_WD 					rot_left(t_WD x, t_WD n);
+t_WD 					rot_right(t_WD x, t_WD n);
 void					aux_f(t_ssl *ssl, t_WD i);
 void					aux_g(t_ssl *ssl, t_WD i);
 void					aux_h(t_ssl *ssl, t_WD i);
@@ -74,16 +77,38 @@ int						md5(t_ssl *md5, unsigned char *str, int len);
 ** print.c
 */
 
+int 					bad_file(t_ssl *ssl, char **av);
 void					gnl_ignore_nl(int fd, char **ptr);
 int 					print_s(t_ssl *ssl, int ac, char **av);
-void	 				file_rotat(t_ssl *ssl, char **av);
+
 
 /*
 ** md5.c
 */
 
-void					md5_buffer_init(t_ssl *ssl);
+void					do_sha256(char *str, t_ssl *ssl);
 void	 				do_md5(char *str, t_ssl *ssl);
-void					decision_maker(t_ssl *ssl, int ac, char **av);
+
+/*
+** rotate.c
+*/
+
+void	 				file_rotat(t_ssl *ssl, char **av);
+void					no_rotation(t_ssl *ssl, char **av);
+void 					rotate_s(t_ssl *ssl, char **av);
+
+/*
+** util.c
+*/
+
+t_WD					revers_WD(t_WD n);
+char					*ft_itoa_base_extra(uint32_t n, int base);
+char 					*add_zero(char *str);
+
+/*
+** sha256.c
+*/
+
+int 					sha256(t_ssl *ssl, char *str, int len);
 
 #endif
