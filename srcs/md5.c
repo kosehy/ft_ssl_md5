@@ -12,7 +12,7 @@
 
 #include "ft_ssl.h"
 
-void 				do_md5(char *str, t_ssl *ssl)
+void				do_md5(char *str, t_ssl *ssl)
 {
 	char *tmp;
 

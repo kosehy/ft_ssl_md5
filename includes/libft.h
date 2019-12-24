@@ -6,7 +6,7 @@
 /*   By: sko <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 22:26:48 by sko               #+#    #+#             */
-/*   Updated: 2019/09/18 22:45:22 by sko              ###   ########.fr       */
+/*   Updated: 2019/12/24 14:09:06 by sko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,5 @@ char				*ft_strtrim(char const *s);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
 int					get_next_line(const int fd, char **line);
-int					ft_printf(const char *format, ...);
 
 #endif
