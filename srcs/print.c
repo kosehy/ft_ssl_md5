@@ -37,17 +37,17 @@ void					gnl_ignore_nl(int fd, char **ptr)
 int 					print_s(t_ssl *ssl, int ac, char **av)
 {
 	if (ft_strcmp("-p", av[ssl->pars]) == 0)
-		ssl->flag |= pFlag;
+		ssl->flag.p = 1;
 	else if (ft_strcmp("-q", av[ssl->pars]) == 0)
-		ssl->flag |= qFlag;
+		ssl->flag.q = 1;
 	else if (ft_strcmp("-r", av[ssl->pars]) == 0)
-		ssl->flag |= rFlag;
+		ssl->flag.r = 1;
 	else if (ft_strcmp("-s", av[ssl->pars]) == 0)
 	{
 		ssl->pars++;
 		if (ssl->pars < ac)
 		{
-			if (!(ssl->flag & rFlag))
+			if (!(ssl->flag.r == 1))
 				no_rotation(ssl, av);
 			else
 				rotate_s(ssl, av);

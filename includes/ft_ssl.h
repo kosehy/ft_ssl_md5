@@ -20,16 +20,20 @@
 
 # include "libft.h"
 
-# define pFlag			(1 << 1)
-# define qFlag			(1 << 2)
-# define rFlag			(1 << 3)
-
 /*
 ** Define four auxiliary functions that each take as input three 42-bit t_WDs
 ** and produce as output one 42-bit t_WD.
 */
 
 typedef unsigned int	t_WD;
+
+typedef struct			s_flag
+{
+	int 				p;
+	int 				q;
+	int 				r;
+	int 				s;
+}						t_flag;
 
 typedef struct			s_ssl
 {
@@ -46,7 +50,7 @@ typedef struct			s_ssl
 	t_WD 				s_data[6];
 	t_WD 				*t;
 	t_WD 				*byte_32;
-	int 				flag;
+	t_flag 				flag;
 	int 				s;
 	int 				n_file;
 	int 				pars;

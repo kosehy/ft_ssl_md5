@@ -20,15 +20,15 @@ static void 		check_flag(t_ssl *ssl, int ac, char **av)
 	while (i < ac)
 	{
 		if (ft_strcmp("-p", av[i]) == 0)
-			ssl->flag |= pFlag;
+			ssl->flag.p = 1;
 		else if (ft_strcmp("-q", av[i]) == 0)
-			ssl->flag |= qFlag;
+			ssl->flag.q = 1;
 		else if (ft_strcmp("-r", av[i]) == 0)
-			ssl->flag |= rFlag;
+			ssl->flag.r = 1;
 		else if (ft_strcmp("-s", av[i]) == 0)
 		{
 			i++;
-			ssl->s++;
+			ssl->flag.s++;
 		}
 		else
 			break ;
@@ -40,10 +40,10 @@ static void 		check_flag(t_ssl *ssl, int ac, char **av)
 void				decision_maker(t_ssl *ssl, int ac, char **av)
 {
 	check_flag(ssl, ac, av);
-	if ((ssl->flag & pFlag) || (!ssl->n_file && !ssl->s))
+	if ((ssl->flag.p == 1) || (!ssl->n_file && !ssl->s))
 	{
 		gnl_ignore_nl(0, &ssl->stdin);
-		if (ssl->flag & pFlag)
+		if (ssl->flag.p == 1)
 			ft_putstr(ssl->stdin);
 		if (ft_strcmp(av[1], "sha256") == 0)
 			do_sha256(ssl->stdin, ssl);
@@ -63,6 +63,7 @@ void				decision_maker(t_ssl *ssl, int ac, char **av)
 int					main(int ac, char **av)
 {
 	t_ssl			ssl;
+
 	if (ac == 1)
 	{
 		ft_putstr("wrong!\n");
