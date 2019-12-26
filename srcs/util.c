@@ -12,7 +12,7 @@
 
 #include "ft_ssl.h"
 
-t_WD				revers_WD(t_WD n)
+t_wd				revers_WD(t_wd n)
 {
 	return ((n >> 24) | ((n & 0xff0000) >> 8) |
 			((n & 0xff00) << 8) | (n << 24));

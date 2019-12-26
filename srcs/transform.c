@@ -12,7 +12,7 @@
 
 #include "ft_ssl.h"
 
-t_WD		g_t[64] =
+t_wd		g_t[64] =
 {
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
 	0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
@@ -32,7 +32,7 @@ t_WD		g_t[64] =
 	0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391
 };
 
-t_WD		g_s[64] =
+t_wd		g_s[64] =
 {
 	7, 12, 17, 22,
 	7, 12, 17, 22,
@@ -54,7 +54,7 @@ t_WD		g_s[64] =
 
 void		round_word(t_ssl *ssl, int i)
 {
-	t_WD	tmp;
+	t_wd	tmp;
 
 	if (i <= 15)
 		aux_f(ssl, i);
@@ -108,8 +108,8 @@ static int	padding_md5(unsigned char *str, int len, t_ssl *ssl)
 		return (-1);
 	ssl->byte = void_bzero(ssl->byte, ssl->datalen + 64);
 	ft_strcpy((char *)ssl->byte, (char *)str);
-	*(t_WD *)(ssl->byte + len) = 0x80;
-	*(t_WD *)(ssl->byte + ssl->datalen) = (t_WD)(8 * len);
+	*(t_wd *)(ssl->byte + len) = 0x80;
+	*(t_wd *)(ssl->byte + ssl->datalen) = (t_wd)(8 * len);
 	ssl->str = 0;
 	return (0);
 }
@@ -122,7 +122,7 @@ int			md5(t_ssl *ssl, unsigned char * str, int len)
 		return (-1);
 	while (ssl->str < ssl->datalen)
 	{
-		ssl->t = (t_WD *)(ssl->byte + ssl->str);
+		ssl->t = (t_wd *)(ssl->byte + ssl->str);
 		ssl->a = ssl->state[0];
 		ssl->b = ssl->state[1];
 		ssl->c = ssl->state[2];

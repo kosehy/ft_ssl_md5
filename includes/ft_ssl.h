@@ -21,11 +21,11 @@
 # include "libft.h"
 
 /*
-** Define four auxiliary functions that each take as input three 42-bit t_WDs
-** and produce as output one 42-bit t_WD.
+** Define four auxiliary functions that each take as input three 42-bit t_wds
+** and produce as output one 42-bit t_wd.
 */
 
-typedef unsigned int	t_WD;
+typedef unsigned int	t_wd;
 
 typedef struct			s_flag
 {
@@ -39,17 +39,17 @@ typedef struct			s_ssl
 {
 	int					datalen;
 	unsigned int		state[8];
-	t_WD				a;
-	t_WD				b;
-	t_WD				c;
-	t_WD				d;
-	t_WD				e;
-	t_WD				f;
-	t_WD				g;
-	t_WD				h;
-	t_WD 				s_data[6];
-	t_WD 				*t;
-	t_WD 				*byte_32;
+	t_wd				a;
+	t_wd				b;
+	t_wd				c;
+	t_wd				d;
+	t_wd				e;
+	t_wd				f;
+	t_wd				g;
+	t_wd				h;
+	t_wd 				s_data[6];
+	t_wd 				*t;
+	t_wd 				*byte_32;
 	t_flag 				flag;
 	int 				s;
 	int 				n_file;
@@ -64,12 +64,12 @@ typedef struct			s_ssl
 ** ft_auxiliary.c
 */
 
-t_WD 					rot_left(t_WD x, t_WD n);
-t_WD 					rot_right(t_WD x, t_WD n);
-void					aux_f(t_ssl *ssl, t_WD i);
-void					aux_g(t_ssl *ssl, t_WD i);
-void					aux_h(t_ssl *ssl, t_WD i);
-void					aux_i(t_ssl *ssl, t_WD i);
+t_wd 					rot_left(t_wd x, t_wd n);
+t_wd 					rot_right(t_wd x, t_wd n);
+void					aux_f(t_ssl *ssl, t_wd i);
+void					aux_g(t_ssl *ssl, t_wd i);
+void					aux_h(t_ssl *ssl, t_wd i);
+void					aux_i(t_ssl *ssl, t_wd i);
 
 /*
 ** transform.c
@@ -105,7 +105,7 @@ void 					rotate_s(t_ssl *ssl, char **av);
 ** util.c
 */
 
-t_WD					revers_WD(t_WD n);
+t_wd					revers_WD(t_wd n);
 char					*ft_itoa_base_extra(uint32_t n, int base);
 char 					*add_zero(char *str);
 
@@ -114,5 +114,11 @@ char 					*add_zero(char *str);
 */
 
 int 					sha256(t_ssl *ssl, char *str, int len);
+
+/*
+** util_sha.c
+*/
+
+void					swap_words(t_ssl *ssl, int i);
 
 #endif
