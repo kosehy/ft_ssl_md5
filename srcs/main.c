@@ -46,9 +46,9 @@ void				decision_maker(t_ssl *ssl, int ac, char **av)
 		gnl_ignore_nl(0, &ssl->stdin);
 		if (ssl->flag.p == 1)
 			ft_putstr(ssl->stdin);
-		if (ft_strcmp(av[1], "sha224") == 0)
-			do_sha224(ssl->stdin, ssl);
-		else if (ft_strcmp(av[1], "sha256") == 0)
+		if (ft_strcmp(ssl->type, "sha224") == 0)
+			do_sha256(ssl->stdin, ssl);
+		else if (ft_strcmp(ssl->type, "sha256") == 0)
 			do_sha256(ssl->stdin, ssl);
 		else
 			do_md5(ssl->stdin, ssl);
@@ -76,11 +76,14 @@ int					main(int ac, char **av)
 	}
 	if (ft_strcmp(av[1], "md5") == 0 || ft_strcmp(av[1], "sha224") == 0 || \
 		ft_strcmp(av[1], "sha256") == 0)
+	{
+		ssl.type = av[1];
 		decision_maker(&ssl, ac, av);
+	}
 	else
 	{
 		ft_putstr("ft_ssl : ");
-		ft_putstr(av[1]);
+		ft_putstr(ssl.type);
 		ft_putstr(" is an invalid\n");
 		exit(-1);
 	}

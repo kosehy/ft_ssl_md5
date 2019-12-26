@@ -63,9 +63,9 @@ int						bad_file(t_ssl *ssl, char **av)
 {
 	if ((ssl->fd = open(av[ssl->pars], O_RDWR)) < 0)
 	{
-		if (ft_strcmp(av[1], "sha224") == 0)
+		if (ft_strcmp(ssl->type, "sha224") == 0)
 			ft_putstr("ft_ssl: sha224: ");
-		else if (ft_strcmp(av[1], "sha256") == 0)
+		else if (ft_strcmp(ssl->type, "sha256") == 0)
 			ft_putstr("ft_ssl: sha256: ");
 		else
 			ft_putstr("ft_ssl: md5: ");

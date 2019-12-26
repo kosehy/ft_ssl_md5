@@ -16,18 +16,18 @@ void					no_rotation(t_ssl *ssl, char **av)
 {
 	if (!(ssl->flag.q == 1))
 	{
-		if (ft_strcmp(av[1], "sha224") == 0)
-			ft_putstr("SHA256 (\"");
-		else if (ft_strcmp(av[1], "sha256") == 0)
+		if (ft_strcmp(ssl->type, "sha224") == 0)
+			ft_putstr("SHA224 (\"");
+		else if (ft_strcmp(ssl->type, "sha256") == 0)
 			ft_putstr("SHA256 (\"");
 		else
 			ft_putstr("MD5 (\"");
 		ft_putstr(av[ssl->pars]);
 		ft_putstr("\")= ");
 	}
-	if (ft_strcmp(av[1], "sha224") == 0)
-		do_sha224(av[ssl->pars], ssl);
-	else if (ft_strcmp(av[1], "sha256") == 0)
+	if (ft_strcmp(ssl->type, "sha224") == 0)
+		do_sha256(av[ssl->pars], ssl);
+	else if (ft_strcmp(ssl->type, "sha256") == 0)
 		do_sha256(av[ssl->pars], ssl);
 	else
 		do_md5(av[ssl->pars], ssl);
@@ -36,9 +36,9 @@ void					no_rotation(t_ssl *ssl, char **av)
 
 void					rotate_s(t_ssl *ssl, char **av)
 {
-	if (ft_strcmp(av[1], "sha224") == 0)
-		do_sha224(av[ssl->pars], ssl);
-	else if (ft_strcmp(av[1], "sha256") == 0)
+	if (ft_strcmp(ssl->type, "sha224") == 0)
+		do_sha256(av[ssl->pars], ssl);
+	else if (ft_strcmp(ssl->type, "sha256") == 0)
 		do_sha256(av[ssl->pars], ssl);
 	else
 		do_md5(av[ssl->pars], ssl);
@@ -55,18 +55,18 @@ static void				file_no_rotat(t_ssl *ssl, char **av)
 {
 	if (!(ssl->flag.q == 1))
 	{
-		if (ft_strcmp(av[1], "sha224") == 0)
+		if (ft_strcmp(ssl->type, "sha224") == 0)
 			ft_putstr("SHA224(");
-		else if (ft_strcmp(av[1], "sha256") == 0)
+		else if (ft_strcmp(ssl->type, "sha256") == 0)
 			ft_putstr("SHA256(");
 		else
 			ft_putstr("MD5(");
 		ft_putstr(av[ssl->pars]);
 		ft_putstr(")= ");
 	}
-	if (ft_strcmp(av[1], "sha224") == 0)
-		do_sha224(ssl->stdin, ssl);
-	else if (ft_strcmp(av[1], "sha256") == 0)
+	if (ft_strcmp(ssl->type, "sha224") == 0)
+		do_sha256(ssl->stdin, ssl);
+	else if (ft_strcmp(ssl->type, "sha256") == 0)
 		do_sha256(ssl->stdin, ssl);
 	else
 		do_md5(ssl->stdin, ssl);
@@ -82,9 +82,9 @@ void					file_rotat(t_ssl *ssl, char **av)
 		file_no_rotat(ssl, av);
 	else
 	{
-		if (ft_strcmp(av[1], "sha224") == 0)
-			do_sha224(ssl->stdin, ssl);
-		else if (ft_strcmp(av[1], "sha256") == 0)
+		if (ft_strcmp(ssl->type, "sha224") == 0)
+			do_sha256(ssl->stdin, ssl);
+		else if (ft_strcmp(ssl->type, "sha256") == 0)
 			do_sha256(ssl->stdin, ssl);
 		else
 			do_md5(ssl->stdin, ssl);
