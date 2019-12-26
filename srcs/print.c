@@ -26,7 +26,7 @@ void					gnl_ignore_nl(int fd, char **ptr)
 	{
 		check = read(fd, c, 1);
 		if (check == 0)
-			break;
+			break ;
 		tmp = str;
 		str = ft_strjoin(str, c);
 		free(tmp);
@@ -34,7 +34,7 @@ void					gnl_ignore_nl(int fd, char **ptr)
 	ptr[0] = str;
 }
 
-int 					print_s(t_ssl *ssl, int ac, char **av)
+int						print_s(t_ssl *ssl, int ac, char **av)
 {
 	if (ft_strcmp("-p", av[ssl->pars]) == 0)
 		ssl->flag.p = 1;
@@ -59,14 +59,14 @@ int 					print_s(t_ssl *ssl, int ac, char **av)
 	return (0);
 }
 
-int 					bad_file(t_ssl *ssl, char **av)
+int						bad_file(t_ssl *ssl, char **av)
 {
 	if ((ssl->fd = open(av[ssl->pars], O_RDWR)) < 0)
 	{
-		if (ft_strcmp(av[1], "sha256") == 0)
-			ft_putstr("ft_ssl: sha256: ");
 		if (ft_strcmp(av[1], "sha224") == 0)
 			ft_putstr("ft_ssl: sha224: ");
+		else if (ft_strcmp(av[1], "sha256") == 0)
+			ft_putstr("ft_ssl: sha256: ");
 		else
 			ft_putstr("ft_ssl: md5: ");
 		ft_putstr(av[ssl->pars]);

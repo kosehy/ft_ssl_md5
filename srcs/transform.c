@@ -67,15 +67,7 @@ void		round_word(t_ssl *ssl, int i)
 	tmp = ssl->d;
 	ssl->d = ssl->c;
 	ssl->c = ssl->b;
-//	printf("i        : %d\n", i);
-//	printf("ssl->b   : %u\n", ssl->b);
-//	printf("ssl->a   : %u\n", ssl->a);
-//	printf("ssl->f   : %u\n", ssl->f);
-//	printf("g_t[i]   : %u\n", g_t[i]);
-//	printf("ssl->m[g]: %u\n", ssl->t[ssl->g]);
-//	printf("g_s[i]   : %u\n", g_s[i]);
 	ssl->b += rot_left(ssl->a + ssl->f + g_t[i] + ssl->t[ssl->g], g_s[i]);
-//	ft_printf("ssl->b : %u\n", ssl->b);
 	ssl->a = tmp;
 	++i;
 }
@@ -83,7 +75,7 @@ void		round_word(t_ssl *ssl, int i)
 void		*void_bzero(void *s, size_t n)
 {
 	unsigned char	*ptr;
-	size_t 			b;
+	size_t			b;
 
 	b = 0;
 	ptr = (unsigned char*)s;
@@ -114,7 +106,7 @@ static int	padding_md5(unsigned char *str, int len, t_ssl *ssl)
 	return (0);
 }
 
-int			md5(t_ssl *ssl, unsigned char * str, int len)
+int			md5(t_ssl *ssl, unsigned char *str, int len)
 {
 	int	i;
 

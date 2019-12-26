@@ -29,10 +29,10 @@ typedef unsigned int	t_wd;
 
 typedef struct			s_flag
 {
-	int 				p;
-	int 				q;
-	int 				r;
-	int 				s;
+	int					p;
+	int					q;
+	int					r;
+	int					s;
 }						t_flag;
 
 typedef struct			s_ssl
@@ -47,16 +47,16 @@ typedef struct			s_ssl
 	t_wd				f;
 	t_wd				g;
 	t_wd				h;
-	t_wd 				s_data[6];
-	t_wd 				*t;
-	t_wd 				*byte_32;
-	t_flag 				flag;
-	int 				s;
-	int 				n_file;
-	int 				pars;
-	int 				fd;
-	int 				str;
-	char 				*stdin;
+	t_wd				s_data[6];
+	t_wd				*t;
+	t_wd				*byte_32;
+	t_flag				flag;
+	int					s;
+	int					n_file;
+	int					pars;
+	int					fd;
+	int					str;
+	char				*stdin;
 	char				*byte;
 }						t_ssl;
 
@@ -64,8 +64,8 @@ typedef struct			s_ssl
 ** ft_auxiliary.c
 */
 
-t_wd 					rot_left(t_wd x, t_wd n);
-t_wd 					rot_right(t_wd x, t_wd n);
+t_wd					rot_left(t_wd x, t_wd n);
+t_wd					rot_right(t_wd x, t_wd n);
 void					aux_f(t_ssl *ssl, t_wd i);
 void					aux_g(t_ssl *ssl, t_wd i);
 void					aux_h(t_ssl *ssl, t_wd i);
@@ -81,39 +81,40 @@ int						md5(t_ssl *md5, unsigned char *str, int len);
 ** print.c
 */
 
-int 					bad_file(t_ssl *ssl, char **av);
+int						bad_file(t_ssl *ssl, char **av);
 void					gnl_ignore_nl(int fd, char **ptr);
-int 					print_s(t_ssl *ssl, int ac, char **av);
-
+int						print_s(t_ssl *ssl, int ac, char **av);
 
 /*
 ** md5.c
 */
 
+void					do_sha224(char *str, t_ssl *ssl);
 void					do_sha256(char *str, t_ssl *ssl);
-void	 				do_md5(char *str, t_ssl *ssl);
+void					do_md5(char *str, t_ssl *ssl);
 
 /*
 ** rotate.c
 */
 
-void	 				file_rotat(t_ssl *ssl, char **av);
+void					file_rotat(t_ssl *ssl, char **av);
 void					no_rotation(t_ssl *ssl, char **av);
-void 					rotate_s(t_ssl *ssl, char **av);
+void					rotate_s(t_ssl *ssl, char **av);
 
 /*
 ** util.c
 */
 
-t_wd					revers_WD(t_wd n);
+t_wd					revers_wd(t_wd n);
 char					*ft_itoa_base_extra(uint32_t n, int base);
-char 					*add_zero(char *str);
+char					*add_zero(char *str);
 
 /*
 ** sha256.c
 */
 
-int 					sha256(t_ssl *ssl, char *str, int len);
+int						sha224(t_ssl *ssl, char *str, int len);
+int						sha256(t_ssl *ssl, char *str, int len);
 
 /*
 ** util_sha.c

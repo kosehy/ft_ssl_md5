@@ -12,7 +12,7 @@
 
 #include "ft_ssl.h"
 
-t_wd 					rot_left(t_wd x, t_wd n)
+t_wd					rot_left(t_wd x, t_wd n)
 {
 	t_wd	tmp;
 
@@ -20,7 +20,7 @@ t_wd 					rot_left(t_wd x, t_wd n)
 	return (tmp);
 }
 
-t_wd 					rot_right(t_wd x, t_wd n)
+t_wd					rot_right(t_wd x, t_wd n)
 {
 	t_wd	tmp;
 

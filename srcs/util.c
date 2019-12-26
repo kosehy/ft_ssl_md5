@@ -12,7 +12,7 @@
 
 #include "ft_ssl.h"
 
-t_wd				revers_WD(t_wd n)
+t_wd				revers_wd(t_wd n)
 {
 	return ((n >> 24) | ((n & 0xff0000) >> 8) |
 			((n & 0xff00) << 8) | (n << 24));
@@ -65,7 +65,7 @@ char				*ft_itoa_base_extra(uint32_t n, int base)
 	return (str);
 }
 
-char 				*add_zero(char *str)
+char				*add_zero(char *str)
 {
 	int	i;
 

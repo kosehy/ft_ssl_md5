@@ -16,23 +16,29 @@ void					no_rotation(t_ssl *ssl, char **av)
 {
 	if (!(ssl->flag.q == 1))
 	{
-		if (ft_strcmp(av[1], "sha256") == 0)
+		if (ft_strcmp(av[1], "sha224") == 0)
+			ft_putstr("SHA256 (\"");
+		else if (ft_strcmp(av[1], "sha256") == 0)
 			ft_putstr("SHA256 (\"");
 		else
 			ft_putstr("MD5 (\"");
 		ft_putstr(av[ssl->pars]);
 		ft_putstr("\")= ");
 	}
-	if (ft_strcmp(av[1], "sha256") == 0)
+	if (ft_strcmp(av[1], "sha224") == 0)
+		do_sha224(av[ssl->pars], ssl);
+	else if (ft_strcmp(av[1], "sha256") == 0)
 		do_sha256(av[ssl->pars], ssl);
 	else
 		do_md5(av[ssl->pars], ssl);
 	ft_putstr("\n");
 }
 
-void 					rotate_s(t_ssl *ssl, char **av)
+void					rotate_s(t_ssl *ssl, char **av)
 {
-	if (ft_strcmp(av[1], "sha256") == 0)
+	if (ft_strcmp(av[1], "sha224") == 0)
+		do_sha224(av[ssl->pars], ssl);
+	else if (ft_strcmp(av[1], "sha256") == 0)
 		do_sha256(av[ssl->pars], ssl);
 	else
 		do_md5(av[ssl->pars], ssl);
@@ -45,25 +51,29 @@ void 					rotate_s(t_ssl *ssl, char **av)
 		ft_putstr("\n");
 }
 
-static void 			file_no_rotat(t_ssl *ssl, char **av)
+static void				file_no_rotat(t_ssl *ssl, char **av)
 {
 	if (!(ssl->flag.q == 1))
 	{
-		if (ft_strcmp(av[1], "sha256") == 0)
+		if (ft_strcmp(av[1], "sha224") == 0)
+			ft_putstr("SHA224(");
+		else if (ft_strcmp(av[1], "sha256") == 0)
 			ft_putstr("SHA256(");
 		else
 			ft_putstr("MD5(");
 		ft_putstr(av[ssl->pars]);
 		ft_putstr(")= ");
 	}
-	if (ft_strcmp(av[1], "sha256") == 0)
+	if (ft_strcmp(av[1], "sha224") == 0)
+		do_sha224(ssl->stdin, ssl);
+	else if (ft_strcmp(av[1], "sha256") == 0)
 		do_sha256(ssl->stdin, ssl);
 	else
 		do_md5(ssl->stdin, ssl);
 	ft_putstr("\n");
 }
 
-void			 		file_rotat(t_ssl *ssl, char **av)
+void					file_rotat(t_ssl *ssl, char **av)
 {
 	if (bad_file(ssl, av) == -1)
 		return ;
@@ -72,7 +82,9 @@ void			 		file_rotat(t_ssl *ssl, char **av)
 		file_no_rotat(ssl, av);
 	else
 	{
-		if (ft_strcmp(av[1], "sha256") == 0)
+		if (ft_strcmp(av[1], "sha224") == 0)
+			do_sha224(ssl->stdin, ssl);
+		else if (ft_strcmp(av[1], "sha256") == 0)
 			do_sha256(ssl->stdin, ssl);
 		else
 			do_md5(ssl->stdin, ssl);
