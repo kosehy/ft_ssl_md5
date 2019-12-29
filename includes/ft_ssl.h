@@ -20,6 +20,14 @@
 
 # include "libft.h"
 
+# define RR(a, b) (((a) >> (b)) | ((a) << (32 - (b))))
+# define CH(x, y, z) (((x) & (y)) ^ (~(x) & (z)))
+# define MAJ(x, y, z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
+# define E0(x) (RR(x, 2) ^ RR(x, 13) ^ RR(x, 22))
+# define E1(x) (RR(x, 6) ^ RR(x, 11) ^ RR(x, 25))
+# define S0(x) (RR(x, 7) ^ RR(x, 18) ^ ((x) >> 3))
+# define S1(x) (RR(x, 17) ^ RR(x, 19) ^ ((x) >> 10))
+
 /*
 ** Define four auxiliary functions that each take as input three 42-bit t_wds
 ** and produce as output one 42-bit t_wd.
@@ -58,6 +66,11 @@ typedef struct			s_ssl
 	int 				str;
 	char 				*stdin;
 	char				*byte;
+	t_wd 				**input;
+	int 				blocks;
+	int 				targets;
+	size_t 				len;
+	t_wd 				w[64];
 }						t_ssl;
 
 /*
@@ -120,5 +133,12 @@ int 					sha256(t_ssl *ssl, char *str, int len);
 */
 
 void					swap_words(t_ssl *ssl, int i);
+
+/*
+** init_sha.c
+*/
+
+void					init_sha224(t_ssl *ssl);
+void					init_sha256(t_ssl *ssl);
 
 #endif

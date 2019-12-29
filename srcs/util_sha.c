@@ -69,7 +69,7 @@ void		swap_words(t_ssl *ssl, int i)
 	ssl->s_data[1] = s1(ssl->e);
 	ssl->s_data[2] = ch(ssl->e, ssl->f, ssl->g);
 	ssl->s_data[3] = ssl->h + ssl->s_data[1] + \
-		ssl->s_data[2] + g_t_sha[i] + ssl->t[i];
+		ssl->s_data[2] + g_t_sha[i] + ssl->w[i];
 	ssl->s_data[0] = s0(ssl->a);
 	ssl->s_data[4] = maj(ssl->a, ssl->b, ssl->c);
 	ssl->s_data[5] = ssl->s_data[0] + ssl->s_data[4];

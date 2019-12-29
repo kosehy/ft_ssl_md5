@@ -12,82 +12,39 @@
 
 #include "ft_ssl.h"
 
-t_wd 		revers_t_wd(t_wd n)
+void		sha256_padding(char *str, uint32_t **input, t_ssl *ctx)
 {
-	return ((n >> 24) | ((n & 0xff0000) >> 8) |
-			((n & 0xff00) << 8) | (n << 24));
-}
+	int			i;
+	size_t		n;
 
-static int	padding_sha256(char *str, int len, t_ssl *ssl)
-{
-	int	i;
-	ssl->state[0] = 0x6a09e667;
-	ssl->state[1] = 0xbb67ae85;
-	ssl->state[2] = 0x3c6ef372;
-	ssl->state[3] = 0xa54ff53a;
-	ssl->state[4] = 0x510e527f;
-	ssl->state[5] = 0x9b05688c;
-	ssl->state[6] = 0x1f83d9ab;
-	ssl->state[7] = 0x5be0cd19;
-
-	ssl->datalen = len * 8;
-	ssl->str = 1 + ((ssl->datalen + 16 + 64) / 512);
-	if (!(ssl->byte_32 = malloc(16 * ssl->str * 4)))
-		return (-1);
-	ft_bzero(ssl->byte_32, 16 * ssl->str * 4);
-	ft_memcpy((char *)ssl->byte_32, str, ft_strlen(str));
-	((char *)ssl->byte_32)[ft_strlen(str)] = 0x80;
+	n = 0;
 	i = 0;
-	while (i < (ssl->str * 16) - 1)
+	while (n < ctx->len)
 	{
-		ssl->byte_32[i] = revers_t_wd(ssl->byte_32[i]);
-		++i;
+		input[i][n % 64 / 4] |= ((str[n] << (3 - ((n) % 4)) * 8) &
+								 (0xffffffff >> (((n) % 4)) * 8));
+		(((++n) % 64)) == 0 ? i++ : 0;
 	}
-	ssl->byte_32[((ssl->str * 512 - 64) / 32) + 1] = ssl->datalen;
-	return (0);
+	input[i][(n) % 64 / 4] |= 0x80 << (3 - ((n) % 4)) * 8;
+	input[ctx->blocks - 1][14] = (uint32_t)((ctx->len * 8) >> 32);
+	input[ctx->blocks - 1][15] = (uint32_t)((ctx->len * 8) & 0xffffffff);
 }
 
-static void round_word_sha256(t_ssl *ssl, int i)
+void		sha256_var_assign(t_ssl *ssl, char order)
 {
-	int j;
-
-	ssl->t = malloc(512);
-	ft_bzero(ssl->t, 512);
-	ft_memcpy(ssl->t, &ssl->byte_32[i * 16], 16 * 32);
-	j = 16;
-	while (j < 64)
+	if (order == '<')
 	{
-		ssl->s_data[0] = rot_right(ssl->t[j - 15], 7) ^ \
-			rot_right(ssl->t[j - 15], 18) ^ (ssl->t[j - 15] >> 3);
-		ssl->s_data[1] = rot_right(ssl->t[j - 2], 17) ^ \
-			rot_right(ssl->t[j - 2], 19) ^ (ssl->t[j - 2] >> 10);
-		ssl->t[j] = ssl->t[j - 16] + ssl->s_data[0] + \
-			ssl->t[j - 7] + ssl->s_data[1];
-		++j;
+		ssl->a = ssl->state[0];
+		ssl->b = ssl->state[1];
+		ssl->c = ssl->state[2];
+		ssl->d = ssl->state[3];
+		ssl->e = ssl->state[4];
+		ssl->f = ssl->state[5];
+		ssl->g = ssl->state[6];
+		ssl->h = ssl->state[7];
 	}
-	ssl->a = ssl->state[0];
-	ssl->b = ssl->state[1];
-	ssl->c = ssl->state[2];
-	ssl->d = ssl->state[3];
-	ssl->e = ssl->state[4];
-	ssl->f = ssl->state[5];
-	ssl->g = ssl->state[6];
-	ssl->h = ssl->state[7];
-}
-
-int 		sha256(t_ssl *ssl, char *str, int len)
-{
-	int i;
-	int j;
-
-	padding_sha256(str, len, ssl);
-	i = 0;
-	while (i < ssl->str)
+	else if (order == '>')
 	{
-		round_word_sha256(ssl, i);
-		j = -1;
-		while (++j < 64)
-			swap_words(ssl, j);
 		ssl->state[0] += ssl->a;
 		ssl->state[1] += ssl->b;
 		ssl->state[2] += ssl->c;
@@ -96,9 +53,75 @@ int 		sha256(t_ssl *ssl, char *str, int len)
 		ssl->state[5] += ssl->f;
 		ssl->state[6] += ssl->g;
 		ssl->state[7] += ssl->h;
-		free(ssl->t);
-		++i;
 	}
-	free(ssl->byte_32);
-	return (0);
+}
+
+/*
+** prepare the message schedule
+** @param input
+** @param ssl
+** @param i
+** @param rnd
+*/
+
+void		sha256_round_word(uint32_t *input, t_ssl *ssl, int i)
+{
+	int j;
+
+	while (++i < 16)
+		ssl->w[i] = input[i];
+	i -= 1;
+	while (++i < 64)
+	{
+		ssl->s_data[0] = rot_right(ssl->w[i - 15], 7) ^ \
+			rot_right(ssl->w[i - 15], 18) ^ (ssl->w[i - 15] >> 3);
+		ssl->s_data[1] = rot_right(ssl->w[i - 2], 17) ^ \
+			rot_right(ssl->w[i - 2], 19) ^ (ssl->w[i - 2] >> 10);
+		ssl->w[i] = ssl->w[i - 16] + ssl->s_data[0] + \
+			ssl->w[i - 7] + ssl->s_data[1];
+	}
+	sha256_var_assign(ssl, '<');
+	j = -1;
+	while (++j < 64)
+		swap_words(ssl, j);
+	sha256_var_assign(ssl, '>');
+}
+
+void		sha256_process(uint32_t **input, t_ssl *ssl)
+{
+	int		j;
+
+	j = 0;
+	init_sha256(ssl);
+	while (j < ssl->blocks)
+	{
+		sha256_round_word(input[j], ssl, -1);
+		j++;
+	}
+}
+
+int			sha256(t_ssl *ssl, char *str, int len)
+{
+	int i;
+	uint32_t **input;
+
+	i = -1;
+	ssl->len = len;
+	len = ssl->len * 8 + 1;
+	while (len % 512 != 448)
+		len++;
+	ssl->blocks = (len += 64) / 512;
+	input = (uint32_t **) malloc(sizeof(uint32_t *) * ssl->blocks);
+	while (++i < ssl->blocks)
+	{
+		input[i] = (uint32_t *) malloc(sizeof(uint32_t) * 16);
+		ft_bzero(input[i], sizeof(uint32_t) * 16);
+	}
+	sha256_padding(str, input, ssl);
+	sha256_process(input, ssl);
+	i = -1;
+	while (++i < ssl->blocks)
+		free(input[i]);
+	free(input);
+	return (1);
 }
