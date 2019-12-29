@@ -59,7 +59,50 @@ int						print_s(t_ssl *ssl, int ac, char **av)
 	return (0);
 }
 
+int						print_s_512(t_s5 *ssl, int ac, char **av)
+{
+	if (ft_strcmp("-p", av[ssl->pars]) == 0)
+		ssl->flag.p = 1;
+	else if (ft_strcmp("-q", av[ssl->pars]) == 0)
+		ssl->flag.q = 1;
+	else if (ft_strcmp("-r", av[ssl->pars]) == 0)
+		ssl->flag.r = 1;
+	else if (ft_strcmp("-s", av[ssl->pars]) == 0)
+	{
+		ssl->pars++;
+		if (ssl->pars < ac)
+		{
+			if (!(ssl->flag.r == 1))
+				no_rotation_512(ssl, av);
+			else
+				rotate_s_512(ssl, av);
+		}
+	}
+	else
+		return (-1);
+	ssl->pars++;
+	return (0);
+}
+
 int						bad_file(t_ssl *ssl, char **av)
+{
+	if ((ssl->fd = open(av[ssl->pars], O_RDWR)) < 0)
+	{
+		if (ft_strcmp(ssl->type, "sha224") == 0)
+			ft_putstr("ft_ssl: sha224: ");
+		else if (ft_strcmp(ssl->type, "sha256") == 0)
+			ft_putstr("ft_ssl: sha256: ");
+		else
+			ft_putstr("ft_ssl: md5: ");
+		ft_putstr(av[ssl->pars]);
+		ft_putstr(": No such file or directory\n");
+		ssl->pars++;
+		return (-1);
+	}
+	return (0);
+}
+
+int						bad_file_512(t_s5 *ssl, char **av)
 {
 	if ((ssl->fd = open(av[ssl->pars], O_RDWR)) < 0)
 	{

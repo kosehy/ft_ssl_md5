@@ -14,13 +14,14 @@
 
 t_wd		revers_t_wd(t_wd n)
 {
-	return ((n >> 24) | ((n & 0xff0000) >> 8) |
-			((n & 0xff00) << 8) | (n << 24));
+	return ((n >> 24) | ((n & 0x00ff0000) >> 8) |
+			((n & 0x0000ff00) << 8) | (n << 24));
 }
 
 static int	padding_sha256(char *str, int len, t_ssl *ssl)
 {
 	int	i;
+	int	index;
 
 	if (ft_strcmp(ssl->type, "sha224") == 0)
 		init_sha224(ssl);
@@ -28,18 +29,26 @@ static int	padding_sha256(char *str, int len, t_ssl *ssl)
 		init_sha256(ssl);
 	ssl->datalen = len * 8;
 	ssl->str = 1 + ((ssl->datalen + 16 + 64) / 512);
+	// if plain text length is less than 512bits, make 512 bits message.
+	// Otherwise, str * 512 bits message
 	if (!(ssl->byte_32 = malloc(16 * ssl->str * 4)))
 		return (-1);
+	// zero initialize
 	ft_bzero(ssl->byte_32, 16 * ssl->str * 4);
-	ft_memcpy((char *)ssl->byte_32, str, ft_strlen(str));
-	((char *)ssl->byte_32)[ft_strlen(str)] = 0x80;
+	// copy plain text to message(byte_32)
+	ft_memcpy((char *)ssl->byte_32, str, len);
+	// append the bit "1" to the end of the messagee
+	((char *)ssl->byte_32)[len] = 0x80;
 	i = 0;
+	// big endian to little endian conversion
 	while (i < (ssl->str * 16) - 1)
 	{
 		ssl->byte_32[i] = revers_t_wd(ssl->byte_32[i]);
 		++i;
 	}
-	ssl->byte_32[((ssl->str * 512 - 64) / 32) + 1] = ssl->datalen;
+	// put the plain text length
+	index = (ssl->str * 512 - 64) / 32;
+	ssl->byte_32[index + 1] = ssl->datalen;
 	return (0);
 }
 

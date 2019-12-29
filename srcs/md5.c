@@ -22,6 +22,16 @@ void				print_tmp_with_zero(t_wd state, int n)
 	free(tmp);
 }
 
+void				print_tmp_with_zero_512(uint64_t state, int n)
+{
+	char *tmp;
+
+	tmp = ft_itoa_base_extra_512(state, n);
+	add_zero(tmp);
+	ft_putstr(tmp);
+	free(tmp);
+}
+
 void				do_md5(char *str, t_ssl *ssl)
 {
 	if (md5(ssl, (uint8_t *)str, ft_strlen(str)) == -1)
@@ -56,5 +66,22 @@ void				do_sha256(char *str, t_ssl *ssl)
 		print_tmp_with_zero(ssl->state[5], 16);
 		print_tmp_with_zero(ssl->state[6], 16);
 		print_tmp_with_zero(ssl->state[7], 16);
+	}
+}
+
+void				do_sha512(char *str, t_s5 *ssl)
+{
+	if (sha512(ssl, str, ft_strlen(str)) == -1)
+		return ;
+	if (ft_strcmp(ssl->type, "sha512") == 0)
+	{
+		print_tmp_with_zero_512(ssl->state[0], 16);
+		print_tmp_with_zero_512(ssl->state[1], 16);
+		print_tmp_with_zero_512(ssl->state[2], 16);
+		print_tmp_with_zero_512(ssl->state[3], 16);
+		print_tmp_with_zero_512(ssl->state[4], 16);
+		print_tmp_with_zero_512(ssl->state[5], 16);
+		print_tmp_with_zero_512(ssl->state[6], 16);
+		print_tmp_with_zero_512(ssl->state[7], 16);
 	}
 }

@@ -38,6 +38,32 @@ static void			check_flag(t_ssl *ssl, int ac, char **av)
 	ssl->n_file = i - ac;
 }
 
+static void			check_flag_512(t_s5 *ssl, int ac, char **av)
+{
+	int	i;
+
+	i = 2;
+	ssl->s = 0;
+	while (i < ac)
+	{
+		if (ft_strcmp("-p", av[i]) == 0)
+			ssl->flag.p = 1;
+		else if (ft_strcmp("-q", av[i]) == 0)
+			ssl->flag.q = 1;
+		else if (ft_strcmp("-r", av[i]) == 0)
+			ssl->flag.r = 1;
+		else if (ft_strcmp("-s", av[i]) == 0)
+		{
+			i++;
+			ssl->flag.s++;
+		}
+		else
+			break ;
+		i++;
+	}
+	ssl->n_file = i - ac;
+}
+
 void				decision_maker(t_ssl *ssl, int ac, char **av)
 {
 	check_flag(ssl, ac, av);
@@ -63,9 +89,31 @@ void				decision_maker(t_ssl *ssl, int ac, char **av)
 		file_rotat(ssl, av);
 }
 
+void				decision_maker512(t_s5 *ssl, int ac, char **av)
+{
+	check_flag_512(ssl, ac, av);
+	if ((ssl->flag.p == 1) || (!ssl->n_file && !ssl->s))
+	{
+		gnl_ignore_nl(0, &ssl->stdin);
+		if (ssl->flag.p == 1)
+			ft_putstr(ssl->stdin);
+		if (ft_strcmp(ssl->type, "sha512") == 0)
+			do_sha512(ssl->stdin, ssl);
+		ft_putstr("\n");
+		free(ssl->stdin);
+	}
+	ssl->pars = 2;
+	while (ssl->pars < ac)
+		if (print_s_512(ssl, ac, av) == -1)
+			break ;
+	while (ssl->pars < ac)
+		file_rotat_512(ssl, av);
+}
+
 int					main(int ac, char **av)
 {
 	t_ssl			ssl;
+	t_s5			ssl1;
 
 	if (ac == 1)
 	{
@@ -79,6 +127,11 @@ int					main(int ac, char **av)
 	{
 		ssl.type = av[1];
 		decision_maker(&ssl, ac, av);
+	}
+	else if (ft_strcmp(av[1], "sha512") == 0)
+	{
+		ssl1.type = av[1];
+		decision_maker512(&ssl1, ac, av);
 	}
 	else
 	{

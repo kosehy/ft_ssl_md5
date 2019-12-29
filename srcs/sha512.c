@@ -12,8 +12,6 @@
 
 #include "ft_ssl.h"
 
-
-
 static uint64_t	g_t_sha512[80] =
 {
 	0x428a2f98d728ae22, 0x7137449123ef65cd,
@@ -98,7 +96,7 @@ u_int64_t				maj_64(u_int64_t x, u_int64_t y, u_int64_t z)
 	return (tmp);
 }
 
-void		swap_words_512(t_s5 *ssl, int i)
+void					swap_words_512(t_s5 *ssl, int i)
 {
 	ssl->s_data[1] = s1_64(ssl->e);
 	ssl->s_data[2] = ch_64(ssl->e, ssl->f, ssl->g);
@@ -117,9 +115,16 @@ void		swap_words_512(t_s5 *ssl, int i)
 	ssl->a = ssl->s_data[3] + ssl->s_data[5];
 }
 
-static int	padding_sha512(char *str, int len, t_s5 *ssl)
+u_int64_t				revers_64(u_int64_t n)
+{
+	return ((n >> 48) | ((n & 0x0000ffff00000000) >> 16) |
+			((n & 0x00000000ffff0000) << 16) | (n << 48));
+}
+
+static int				padding_sha512(char *str, int len, t_s5 *ssl)
 {
 	int	i;
+	int	index;
 
 	if (ft_strcmp(ssl->type, "sha512") == 0)
 		init_sha512(ssl);
@@ -129,14 +134,15 @@ static int	padding_sha512(char *str, int len, t_s5 *ssl)
 		return (-1);
 	ft_bzero(ssl->byte_64, 16 * ssl->str * 4);
 	ft_memcpy((char *)ssl->byte_64, str, ft_strlen(str));
-	((char *)ssl->byte_64)[ft_strlen(str)] = 0x80;
+	((char *)ssl->byte_64)[len] = 0x80;
 	i = 0;
 	while (i < (ssl->str * 16) - 1)
 	{
-		ssl->byte_64[i] = revers_t_wd(ssl->byte_64[i]);
+		ssl->byte_64[i] = revers_64(ssl->byte_64[i]);
 		++i;
 	}
-	ssl->byte_64[((ssl->str * 512 - 64) / 32) + 1] = ssl->datalen;
+	index = (ssl->str * 1024 - 128) / 64;
+	ssl->byte_64[index + 1] = ssl->datalen;
 	return (0);
 }
 
@@ -145,7 +151,7 @@ static int	padding_sha512(char *str, int len, t_s5 *ssl)
 **
 */
 
-static void	round_word_sha512(t_ssl *s5, int i)
+static void				round_word_sha512(t_s5 *ssl, int i)
 {
 	int j;
 
