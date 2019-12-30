@@ -22,7 +22,7 @@ void		sha256_padding(char *str, uint32_t **input, t_ssl *ssl)
 	while (n < ssl->len)
 	{
 		input[i][n % 64 / 4] |= ((str[n] << (3 - ((n) % 4)) * 8) &
-								 (0xffffffff >> (((n) % 4)) * 8));
+								(0xffffffff >> (((n) % 4)) * 8));
 		(((++n) % 64)) == 0 ? i++ : 0;
 	}
 	input[i][(n) % 64 / 4] |= 0x80 << (3 - ((n) % 4)) * 8;
@@ -66,7 +66,9 @@ void		sha256_process(uint32_t **input, t_ssl *ssl)
 	int		j;
 
 	j = 0;
-	init_sha256(ssl);
+	if (ft_strcmp(ssl->type, "sha224") == 0 || \
+		ft_strcmp(ssl->type, "sha256") == 0)
+		init_sha256(ssl);
 	while (j < ssl->blocks)
 	{
 		sha256_round_word(input[j], ssl, -1);
@@ -76,7 +78,7 @@ void		sha256_process(uint32_t **input, t_ssl *ssl)
 
 int			sha256(t_ssl *ssl, char *str, int len)
 {
-	int 		i;
+	int			i;
 	uint32_t	**input;
 
 	i = -1;
@@ -85,10 +87,10 @@ int			sha256(t_ssl *ssl, char *str, int len)
 	while (len % 512 != 448)
 		len++;
 	ssl->blocks = (len += 64) / 512;
-	input = (uint32_t **) malloc(sizeof(uint32_t *) * ssl->blocks);
+	input = (uint32_t **)malloc(sizeof(uint32_t *) * ssl->blocks);
 	while (++i < ssl->blocks)
 	{
-		input[i] = (uint32_t *) malloc(sizeof(uint32_t) * 16);
+		input[i] = (uint32_t *)malloc(sizeof(uint32_t) * 16);
 		ft_bzero(input[i], sizeof(uint32_t) * 16);
 	}
 	sha256_padding(str, input, ssl);

@@ -18,7 +18,7 @@ char			*ft_itoa_hex_512(uint64_t state[], int size, int i, char end)
 	int			j;
 	uint64_t	r;
 	uint64_t	temp;
-	char	*cmp;
+	char		*cmp;
 
 	cmp = "0123456789abcdef";
 	ret = ft_strnew(size);
@@ -46,7 +46,7 @@ uint64_t		rot_right_64(uint64_t x, uint64_t n)
 	return (tmp);
 }
 
-t_wd 			rot_left(t_wd x, t_wd n)
+t_wd			rot_left(t_wd x, t_wd n)
 {
 	t_wd	tmp;
 
@@ -54,7 +54,7 @@ t_wd 			rot_left(t_wd x, t_wd n)
 	return (tmp);
 }
 
-t_wd 			rot_right(t_wd x, t_wd n)
+t_wd			rot_right(t_wd x, t_wd n)
 {
 	t_wd	tmp;
 

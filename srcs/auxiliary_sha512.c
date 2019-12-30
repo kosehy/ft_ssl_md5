@@ -64,7 +64,7 @@ uint64_t		s1_512(uint64_t x)
 	return (tmp);
 }
 
-uint64_t 		ch_512(uint64_t x, uint64_t y, uint64_t z)
+uint64_t		ch_512(uint64_t x, uint64_t y, uint64_t z)
 {
 	uint64_t tmp;
 
@@ -80,7 +80,7 @@ uint64_t		s0_512(uint64_t x)
 	return (tmp);
 }
 
-uint64_t 		maj_512(uint64_t x, uint64_t y, uint64_t z)
+uint64_t		maj_512(uint64_t x, uint64_t y, uint64_t z)
 {
 	uint64_t tmp;
 

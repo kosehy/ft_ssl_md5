@@ -12,7 +12,7 @@
 
 #include "ft_ssl.h"
 
-void		sha256_var_assign(t_ssl *ssl, char order)
+void					sha256_var_assign(t_ssl *ssl, char order)
 {
 	if (order == '<')
 	{

@@ -26,24 +26,37 @@ void				do_md5(char *str, t_ssl *ssl)
 {
 	if (md5(ssl, (uint8_t *)str, ft_strlen(str)) == -1)
 		return ;
-	print_tmp_with_zero(revers_WD(ssl->state[0]), 16);
-	print_tmp_with_zero(revers_WD(ssl->state[1]), 16);
-	print_tmp_with_zero(revers_WD(ssl->state[2]), 16);
-	print_tmp_with_zero(revers_WD(ssl->state[3]), 16);
+	print_tmp_with_zero(revers_wd(ssl->state[0]), 16);
+	print_tmp_with_zero(revers_wd(ssl->state[1]), 16);
+	print_tmp_with_zero(revers_wd(ssl->state[2]), 16);
+	print_tmp_with_zero(revers_wd(ssl->state[3]), 16);
 }
 
 void				do_sha256(char *str, t_ssl *ssl)
 {
 	if (sha256(ssl, str, ft_strlen(str)) == -1)
 		return ;
-	print_tmp_with_zero(ssl->state[0], 16);
-	print_tmp_with_zero(ssl->state[1], 16);
-	print_tmp_with_zero(ssl->state[2], 16);
-	print_tmp_with_zero(ssl->state[3], 16);
-	print_tmp_with_zero(ssl->state[4], 16);
-	print_tmp_with_zero(ssl->state[5], 16);
-	print_tmp_with_zero(ssl->state[6], 16);
-	print_tmp_with_zero(ssl->state[7], 16);
+	if (ft_strcmp(ssl->type, "sha224") == 0)
+	{
+		print_tmp_with_zero(ssl->state[0], 16);
+		print_tmp_with_zero(ssl->state[1], 16);
+		print_tmp_with_zero(ssl->state[2], 16);
+		print_tmp_with_zero(ssl->state[3], 16);
+		print_tmp_with_zero(ssl->state[4], 16);
+		print_tmp_with_zero(ssl->state[5], 16);
+		print_tmp_with_zero(ssl->state[6], 16);
+	}
+	else if (ft_strcmp(ssl->type, "sha256") == 0)
+	{
+		print_tmp_with_zero(ssl->state[0], 16);
+		print_tmp_with_zero(ssl->state[1], 16);
+		print_tmp_with_zero(ssl->state[2], 16);
+		print_tmp_with_zero(ssl->state[3], 16);
+		print_tmp_with_zero(ssl->state[4], 16);
+		print_tmp_with_zero(ssl->state[5], 16);
+		print_tmp_with_zero(ssl->state[6], 16);
+		print_tmp_with_zero(ssl->state[7], 16);
+	}
 }
 
 void				do_sha512(char *str, t_s5 *ssl)

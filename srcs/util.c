@@ -12,7 +12,7 @@
 
 #include "ft_ssl.h"
 
-t_wd				revers_WD(t_wd n)
+t_wd				revers_wd(t_wd n)
 {
 	return ((n >> 24) | ((n & 0xff0000) >> 8) |
 			((n & 0xff00) << 8) | (n << 24));
@@ -41,19 +41,21 @@ static char			*free_str(char *str)
 	return (str);
 }
 
-char				*ft_itoa_base_extra(uint32_t n, int base) {
-	int len;
-	char *str;
-	char *cmp;
+char				*ft_itoa_base_extra(uint32_t n, int base)
+{
+	int		len;
+	char	*str;
+	char	*cmp;
 
 	cmp = "0123456789abcdef";
 	len = ft_get_len(n, base);
 	if (n == 0)
 		return (ft_strdup("0"));
-	if (!(str = (char *) malloc(sizeof(char) * (len + 1))))
+	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	str[len + 1] = 0;
-	while (len + 1) {
+	while (len + 1)
+	{
 		str[len] = cmp[n % base];
 		n = n / base;
 		len--;
@@ -63,7 +65,7 @@ char				*ft_itoa_base_extra(uint32_t n, int base) {
 	return (str);
 }
 
-char 				*add_zero(char *str)
+char				*add_zero(char *str)
 {
 	int	i;
 

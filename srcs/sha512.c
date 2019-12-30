@@ -42,7 +42,7 @@ void		sha512_padding(char *str, uint64_t **input, t_s5 *ssl)
 {
 	int			i;
 	size_t		n;
-	int 		u;
+	int			u;
 
 	n = 0;
 	i = 0;
@@ -92,10 +92,9 @@ void		sha512_process(uint64_t **input, t_s5 *ssl)
 		init_sha384(ssl);
 	else if (ft_strcmp(ssl->type, "sha512") == 0)
 		init_sha512(ssl);
-	else if (ft_strcmp(ssl->type, "sha512224") == 0)
-		init_sha512224(ssl);
-	else if (ft_strcmp(ssl->type, "sha512256") == 0)
-		init_sha512256(ssl);
+	else if (ft_strcmp(ssl->type, "sha512224") == 0 || \
+			ft_strcmp(ssl->type, "sha512256") == 0)
+		init_sha512t(ssl);
 	while (j < ssl->blocks)
 	{
 		sha512_round_word(input[j], ssl, -1);
@@ -105,7 +104,7 @@ void		sha512_process(uint64_t **input, t_s5 *ssl)
 
 int			sha512(t_s5 *ssl, char *str, int len)
 {
-	int 		i;
+	int			i;
 	uint64_t	**input;
 
 	i = -1;
@@ -114,10 +113,10 @@ int			sha512(t_s5 *ssl, char *str, int len)
 	while (len % 1024 != 896)
 		len++;
 	ssl->blocks = (len += 128) / 1024;
-	input = (uint64_t **) malloc(sizeof(uint64_t *) * ssl->blocks);
+	input = (uint64_t **)malloc(sizeof(uint64_t *) * ssl->blocks);
 	while (++i < ssl->blocks)
 	{
-		input[i] = (uint64_t *) malloc(sizeof(uint64_t) * 16);
+		input[i] = (uint64_t *)malloc(sizeof(uint64_t) * 16);
 		ft_bzero(input[i], sizeof(uint64_t) * 16);
 	}
 	sha512_padding(str, input, ssl);

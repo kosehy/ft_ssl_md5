@@ -40,7 +40,7 @@ t_wd		s1(t_wd x)
 	return (tmp);
 }
 
-t_wd 		ch(t_wd x, t_wd y, t_wd z)
+t_wd		ch(t_wd x, t_wd y, t_wd z)
 {
 	t_wd tmp;
 
@@ -56,7 +56,7 @@ t_wd		s0(t_wd x)
 	return (tmp);
 }
 
-t_wd 		maj(t_wd x, t_wd y, t_wd z)
+t_wd		maj(t_wd x, t_wd y, t_wd z)
 {
 	t_wd tmp;
 

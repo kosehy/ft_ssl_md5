@@ -26,7 +26,7 @@ void					gnl_ignore_nl(int fd, char **ptr)
 	{
 		check = read(fd, c, 1);
 		if (check == 0)
-			break;
+			break ;
 		tmp = str;
 		str = ft_strjoin(str, c);
 		free(tmp);
@@ -34,7 +34,7 @@ void					gnl_ignore_nl(int fd, char **ptr)
 	ptr[0] = str;
 }
 
-int 					print_s(t_ssl *ssl, int ac, char **av)
+int						print_s(t_ssl *ssl, int ac, char **av)
 {
 	if (ft_strcmp("-p", av[ssl->pars]) == 0)
 		ssl->flag.p = 1;

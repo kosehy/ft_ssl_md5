@@ -74,7 +74,7 @@ void		round_word(t_ssl *ssl, int i)
 void		*void_bzero(void *s, size_t n)
 {
 	unsigned char	*ptr;
-	size_t 			b;
+	size_t			b;
 
 	b = 0;
 	ptr = (unsigned char*)s;
@@ -105,7 +105,7 @@ static int	padding_md5(unsigned char *str, int len, t_ssl *ssl)
 	return (0);
 }
 
-int			md5(t_ssl *ssl, unsigned char * str, int len)
+int			md5(t_ssl *ssl, unsigned char *str, int len)
 {
 	int	i;
 
