@@ -31,35 +31,40 @@ Emphasize writing clean code that can be efficiently extended
 ## Instructions
 Make sure you have the needed [dependencies](#dependencies) before proceeding.
 For instructions and/or greater detail refer to the project [pdf][pdf]
-- [ ] The executable file must be named ft_ssl
-- [ ] Must submit a Makefile which contain the usual rules and compile the project as necessary
-- [ ] Project must be written in accordance with the Norm
-- [ ] Handle usual errors(Segfault, bus error, double free) and openssl related error carefully
-- [ ] Submit an author file at the root of your repository
-- [ ] Allowed the flowing functions: open, close, read, write, malloc, free
-- [ ] ALlowed to use other functions as long as their use is justified
+- [x] The executable file must be named ft_ssl
+- [x] Must submit a Makefile which contain the usual rules and compile the project as necessary
+- [x] Project must be written in accordance with the Norm
+- [x] Handle usual errors(Segfault, bus error, double free) and openssl related error carefully
+- [x] Submit an author file at the root of your repository
+- [x] Allowed the flowing functions: open, close, read, write, malloc, free
+- [x] ALlowed to use other functions as long as their use is justified
 ## Mandatory part
-- [ ] Create a program named ft_ssl that will recreate part of the OpenSSL functionality
+- [x] Create a program named ft_ssl that will recreate part of the OpenSSL functionality
 - Create the md5 command for ft_ssl program which include the following flags
-- [ ] -p, echo STDIN to STDOUT and append the checksum to STDOUT
-- [ ] -q, quiet mode
-- [ ] -r, reverse the format of the output
-- [ ] -s, print the sum of the given string
-- [ ] Emulate the behavior of the md5 executable
-- [ ] If flags are not provided, be prepared to read/write from.to the console
+- [x] -p, echo STDIN to STDOUT and append the checksum to STDOUT
+- [x] -q, quiet mode
+- [x] -r, reverse the format of the output
+- [x] -s, print the sum of the given string
+- [x] Emulate the behavior of the md5 executable
+- [x] If flags are not provided, be prepared to read/write from.to the console
 ![img_md5](images/md5_example.png)
 - Create the sha256 command for ft_ssl program which include the following flags:
-- [ ] -p, echo STDIN to STDOUT and append the checksum to STDOUT
-- [ ] -q, quiet mode
-- [ ] -r, reverse the format of the output
-- [ ] -s, print the sum of the given string
-- [ ] The behavior should be exactly the same as the command above, witht the only difference being the hash algorithm in question
+- [x] -p, echo STDIN to STDOUT and append the checksum to STDOUT
+- [x] -q, quiet mode
+- [x] -r, reverse the format of the output
+- [x] -s, print the sum of the given string
+- [x] The behavior should be exactly the same as the command above, witht the only difference being the hash algorithm in question
 ![img_sha256](images/sha256_example.png)
 ## Bonus part
 -- There are several bonuses that can be earned for this project
 - [ ] Parse commands from STDIN the same way that OpenSSL does
-- Include additional hashing algorithms in ft_Ssl executable
-- The bonus algorithms are expected to have the same flag functionality as above
+- Include additional hashing algorithms in ft_ssl executable
+- The bonus algorithms are expected to have the same flag functionality as above:
+- [x] sha224
+- [x] sha384
+- [x] sha512
+- [x] sha512224
+- [x] sha512256
 ![img_bonus](images/bonus.png)
 ## Dependencies  
 * A C language compiler most common would be GCC or Clang.
