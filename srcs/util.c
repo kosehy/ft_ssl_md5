@@ -65,6 +65,30 @@ char				*ft_itoa_base_extra(uint32_t n, int base)
 	return (str);
 }
 
+char				*ft_itoa_base_extra_512(uint64_t n, int base)
+{
+	int		len;
+	char	*str;
+	char	*cmp;
+
+	cmp = "0123456789abcdef";
+	len = ft_get_len(n, base);
+	if (n == 0)
+		return (ft_strdup("0"));
+	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	str[len + 1] = 0;
+	while (len + 1)
+	{
+		str[len] = cmp[n % base];
+		n = n / base;
+		len--;
+	}
+	if (str[0] == '0')
+		str = free_str(str);
+	return (str);
+}
+
 char 				*add_zero(char *str)
 {
 	int	i;

@@ -6,28 +6,28 @@
 /*   By: sko <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 17:27:00 by sko               #+#    #+#             */
-/*   Updated: 2019/12/21 17:27:01 by sko              ###   ########.fr       */
+/*   Updated: 2019/12/29 21:48:20 by sko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-void		sha256_padding(char *str, uint32_t **input, t_ssl *ctx)
+void		sha256_padding(char *str, uint32_t **input, t_ssl *ssl)
 {
 	int			i;
 	size_t		n;
 
 	n = 0;
 	i = 0;
-	while (n < ctx->len)
+	while (n < ssl->len)
 	{
 		input[i][n % 64 / 4] |= ((str[n] << (3 - ((n) % 4)) * 8) &
 								 (0xffffffff >> (((n) % 4)) * 8));
 		(((++n) % 64)) == 0 ? i++ : 0;
 	}
 	input[i][(n) % 64 / 4] |= 0x80 << (3 - ((n) % 4)) * 8;
-	input[ctx->blocks - 1][14] = (uint32_t)((ctx->len * 8) >> 32);
-	input[ctx->blocks - 1][15] = (uint32_t)((ctx->len * 8) & 0xffffffff);
+	input[ssl->blocks - 1][14] = (uint32_t)((ssl->len * 8) >> 32);
+	input[ssl->blocks - 1][15] = (uint32_t)((ssl->len * 8) & 0xffffffff);
 }
 
 void		sha256_var_assign(t_ssl *ssl, char order)
@@ -102,8 +102,8 @@ void		sha256_process(uint32_t **input, t_ssl *ssl)
 
 int			sha256(t_ssl *ssl, char *str, int len)
 {
-	int i;
-	uint32_t **input;
+	int 		i;
+	uint32_t	**input;
 
 	i = -1;
 	ssl->len = len;
