@@ -70,7 +70,6 @@ static void				file_no_rotat_512(t_s5 *ssl, char **av)
 		ft_strcmp(ssl->type, "sha512") == 0 || \
 		ft_strcmp(ssl->type, "sha512224") == 0 || \
 		ft_strcmp(ssl->type, "sha512256") == 0)
-		do_sha512(av[ssl->pars], ssl);
 		do_sha512(ssl->stdin, ssl);
 	ft_putstr("\n");
 }

@@ -149,7 +149,7 @@ char 					*add_zero(char *str);
 */
 
 char					*ft_itoa_hex_512(uint64_t state[], int size, int i, char end);
-u_int64_t				rot_right_64(u_int64_t x, u_int64_t n);
+uint64_t				rot_right_64(uint64_t x, uint64_t n);
 t_wd 					rot_left(t_wd x, t_wd n);
 t_wd 					rot_right(t_wd x, t_wd n);
 

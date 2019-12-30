@@ -38,9 +38,9 @@ char			*ft_itoa_hex_512(uint64_t state[], int size, int i, char end)
 	return (ret);
 }
 
-u_int64_t		rot_right_64(u_int64_t x, u_int64_t n)
+uint64_t		rot_right_64(uint64_t x, uint64_t n)
 {
-	u_int64_t	tmp;
+	uint64_t	tmp;
 
 	tmp = (x >> n) | (x << (64 - n));
 	return (tmp);
