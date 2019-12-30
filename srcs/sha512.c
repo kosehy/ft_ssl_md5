@@ -12,29 +12,29 @@
 
 #include "ft_ssl.h"
 
-void		sha512_var_assign(t_s5 *ctx, char order)
+void		sha512_var_assign(t_s5 *ssl, char order)
 {
 	if (order == '<')
 	{
-		ctx->a = ctx->state[0];
-		ctx->b = ctx->state[1];
-		ctx->c = ctx->state[2];
-		ctx->d = ctx->state[3];
-		ctx->e = ctx->state[4];
-		ctx->f = ctx->state[5];
-		ctx->g = ctx->state[6];
-		ctx->h = ctx->state[7];
+		ssl->a = ssl->state[0];
+		ssl->b = ssl->state[1];
+		ssl->c = ssl->state[2];
+		ssl->d = ssl->state[3];
+		ssl->e = ssl->state[4];
+		ssl->f = ssl->state[5];
+		ssl->g = ssl->state[6];
+		ssl->h = ssl->state[7];
 	}
 	else if (order == '>')
 	{
-		ctx->state[0] += ctx->a;
-		ctx->state[1] += ctx->b;
-		ctx->state[2] += ctx->c;
-		ctx->state[3] += ctx->d;
-		ctx->state[4] += ctx->e;
-		ctx->state[5] += ctx->f;
-		ctx->state[6] += ctx->g;
-		ctx->state[7] += ctx->h;
+		ssl->state[0] += ssl->a;
+		ssl->state[1] += ssl->b;
+		ssl->state[2] += ssl->c;
+		ssl->state[3] += ssl->d;
+		ssl->state[4] += ssl->e;
+		ssl->state[5] += ssl->f;
+		ssl->state[6] += ssl->g;
+		ssl->state[7] += ssl->h;
 	}
 }
 

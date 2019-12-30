@@ -12,38 +12,38 @@
 
 #include "ft_ssl.h"
 
-void					sha384_print(t_s5 *ctx)
+void					sha384_print(t_s5 *ssl)
 {
 	char			*ret;
 
-	ret = ft_itoa_hex_512(ctx->state, 96, 0, 'B');
+	ret = ft_itoa_hex_512(ssl->state, 96, 0, 'B');
 	write(1, ret, 96);
 	free(ret);
 }
 
-void					sha512_print(t_s5 *ctx)
+void					sha512_print(t_s5 *ssl)
 {
 	char			*ret;
 
-	ret = ft_itoa_hex_512(ctx->state, 128, 0, 'B');
+	ret = ft_itoa_hex_512(ssl->state, 128, 0, 'B');
 	write(1, ret, 128);
 	free(ret);
 }
 
-void					sha512224_print(t_s5 *ctx)
+void					sha512224_print(t_s5 *ssl)
 {
 	char			*ret;
 
-	ret = ft_itoa_hex_512(ctx->state, 56, 0, 'B');
+	ret = ft_itoa_hex_512(ssl->state, 56, 0, 'B');
 	write(1, ret, 56);
 	free(ret);
 }
 
-void					sha512256_print(t_s5 *ctx)
+void					sha512256_print(t_s5 *ssl)
 {
 	char			*ret;
 
-	ret = ft_itoa_hex_512(ctx->state, 64, 0, 'B');
+	ret = ft_itoa_hex_512(ssl->state, 64, 0, 'B');
 	write(1, ret, 64);
 	free(ret);
 }
