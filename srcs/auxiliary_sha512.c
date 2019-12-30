@@ -56,14 +56,6 @@ uint64_t		g_t_sha_64[80] =
 	0x5fcb6fab3ad6faec, 0x6c44198c4a475817
 };
 
-u_int64_t		rot_right_64(u_int64_t x, u_int64_t n)
-{
-	u_int64_t	tmp;
-
-	tmp = (x >> n) | (x << (64 - n));
-	return (tmp);
-}
-
 uint64_t		s1_512(uint64_t x)
 {
 	uint64_t tmp;

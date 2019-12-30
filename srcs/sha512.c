@@ -88,7 +88,14 @@ void		sha512_process(uint64_t **input, t_s5 *ssl)
 	int		j;
 
 	j = 0;
-	init_sha512(ssl);
+	if (ft_strcmp(ssl->type, "sha384") == 0)
+		init_sha384(ssl);
+	else if (ft_strcmp(ssl->type, "sha512") == 0)
+		init_sha512(ssl);
+	else if (ft_strcmp(ssl->type, "sha512224") == 0)
+		init_sha512224(ssl);
+	else if (ft_strcmp(ssl->type, "sha512256") == 0)
+		init_sha512256(ssl);
 	while (j < ssl->blocks)
 	{
 		sha512_round_word(input[j], ssl, -1);

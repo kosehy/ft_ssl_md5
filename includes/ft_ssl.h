@@ -20,14 +20,6 @@
 
 # include "libft.h"
 
-# define RR(a, b) (((a) >> (b)) | ((a) << (32 - (b))))
-# define CH(x, y, z) (((x) & (y)) ^ (~(x) & (z)))
-# define MAJ(x, y, z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
-# define E0(x) (RR(x, 2) ^ RR(x, 13) ^ RR(x, 22))
-# define E1(x) (RR(x, 6) ^ RR(x, 11) ^ RR(x, 25))
-# define S0(x) (RR(x, 7) ^ RR(x, 18) ^ ((x) >> 3))
-# define S1(x) (RR(x, 17) ^ RR(x, 19) ^ ((x) >> 10))
-
 /*
 ** Define four auxiliary functions that each take as input three 42-bit t_wds
 ** and produce as output one 42-bit t_wd.
@@ -105,8 +97,6 @@ typedef struct			s_s5
 ** ft_auxiliary.c
 */
 
-t_wd 					rot_left(t_wd x, t_wd n);
-t_wd 					rot_right(t_wd x, t_wd n);
 void					aux_f(t_ssl *ssl, t_wd i);
 void					aux_g(t_ssl *ssl, t_wd i);
 void					aux_h(t_ssl *ssl, t_wd i);
@@ -155,14 +145,25 @@ char					*ft_itoa_base_extra(uint32_t n, int base);
 char 					*add_zero(char *str);
 
 /*
-** util_sha512.c
+** util2.c
 */
 
 char					*ft_itoa_hex_512(uint64_t state[], int size, int i, char end);
+u_int64_t				rot_right_64(u_int64_t x, u_int64_t n);
+t_wd 					rot_left(t_wd x, t_wd n);
+t_wd 					rot_right(t_wd x, t_wd n);
+
+/*
+** util_sha512.c
+*/
+
 void					file_rotat_512(t_s5 *ssl, char **av);
 void					no_rotation_512(t_s5 *ssl, char **av);
 void					rotate_s_512(t_s5 *ssl, char **av);
+void					sha384_print(t_s5 *ctx);
 void					sha512_print(t_s5 *ctx);
+void					sha512224_print(t_s5 *ctx);
+void					sha512256_print(t_s5 *ctx);
 
 /*
 ** sha256.c
@@ -177,24 +178,26 @@ int 					sha256(t_ssl *ssl, char *str, int len);
 int 					sha512(t_s5 *ssl, char *str, int len);
 
 /*
-** util_sha.c
-*/
-
-void					swap_words(t_ssl *ssl, int i);
-
-/*
 ** init_sha.c
 */
 
 void					init_sha224(t_ssl *ssl);
 void					init_sha256(t_ssl *ssl);
+void					init_sha384(t_s5 *ssl);
 void					init_sha512(t_s5 *ssl);
+void					init_sha512224(t_s5 *ssl);
+void					init_sha512256(t_s5 *ssl);
+
+/*
+** auxiliary_sha256.c
+*/
+
+void					swap_words(t_ssl *ssl, int i);
 
 /*
 ** auxiliary_sha512.c
 */
 
-u_int64_t				rot_right_64(u_int64_t x, u_int64_t n);
 void					swap_words_512(t_s5 *ssl, int i);
 
 #endif

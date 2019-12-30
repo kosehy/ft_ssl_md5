@@ -12,49 +12,35 @@
 
 #include "ft_ssl.h"
 
-char			*ft_itoa_hex_512(uint64_t state[], int size, int i, char end)
-{
-	char		*ret;
-	int			j;
-	uint64_t	r;
-	uint64_t	temp;
-	char	*cmp;
-
-	cmp = "0123456789abcdef";
-	ret = ft_strnew(size);
-	r = 0x1000000000000000;
-	while (i < size)
-	{
-		temp = (end == 'L' ? 0 : state[i / 16]);
-		j = 0;
-		while (j < 16)
-		{
-			ret[i] = cmp[temp / (r >> (4 * j))];
-			temp = temp % (r >> (4 * j));
-			j++;
-			i++;
-		}
-	}
-	return (ret);
-}
-
 void					no_rotation_512(t_s5 *ssl, char **av)
 {
 	if (!(ssl->flag.q == 1))
 	{
-		if (ft_strcmp(ssl->type, "sha512") == 0)
+		if (ft_strcmp(ssl->type, "sha384") == 0)
+			ft_putstr("SHA384 (\"");
+		else if (ft_strcmp(ssl->type, "sha512") == 0)
 			ft_putstr("SHA512 (\"");
+		else if (ft_strcmp(ssl->type, "sha512224") == 0)
+			ft_putstr("SHA512224 (\"");
+		else if (ft_strcmp(ssl->type, "sha512256") == 0)
+			ft_putstr("SHA512256 (\"");
 		ft_putstr(av[ssl->pars]);
 		ft_putstr("\")= ");
 	}
-	if (ft_strcmp(ssl->type, "sha512") == 0)
+	if (ft_strcmp(ssl->type, "sha384") == 0 || \
+		ft_strcmp(ssl->type, "sha512") == 0 || \
+		ft_strcmp(ssl->type, "sha512224") == 0 || \
+		ft_strcmp(ssl->type, "sha512256") == 0)
 		do_sha512(av[ssl->pars], ssl);
 	ft_putstr("\n");
 }
 
 void					rotate_s_512(t_s5 *ssl, char **av)
 {
-	if (ft_strcmp(ssl->type, "sha512") == 0)
+	if (ft_strcmp(ssl->type, "sha384") == 0 || \
+		ft_strcmp(ssl->type, "sha512") == 0 || \
+		ft_strcmp(ssl->type, "sha512224") == 0 || \
+		ft_strcmp(ssl->type, "sha512256") == 0)
 		do_sha512(av[ssl->pars], ssl);
 	if (!(ssl->flag.q == 1))
 	{
@@ -69,12 +55,22 @@ static void				file_no_rotat_512(t_s5 *ssl, char **av)
 {
 	if (!(ssl->flag.q == 1))
 	{
-		if (ft_strcmp(ssl->type, "sha512") == 0)
-			ft_putstr("SHA512(");
+		if (ft_strcmp(ssl->type, "sha384") == 0)
+			ft_putstr("SHA384 (\"");
+		else if (ft_strcmp(ssl->type, "sha512") == 0)
+			ft_putstr("SHA512 (\"");
+		else if (ft_strcmp(ssl->type, "sha512224") == 0)
+			ft_putstr("SHA512224 (\"");
+		else if (ft_strcmp(ssl->type, "sha512256") == 0)
+			ft_putstr("SHA512256 (\"");
 		ft_putstr(av[ssl->pars]);
 		ft_putstr(")= ");
 	}
-	if (ft_strcmp(ssl->type, "sha512") == 0)
+	if (ft_strcmp(ssl->type, "sha384") == 0 || \
+		ft_strcmp(ssl->type, "sha512") == 0 || \
+		ft_strcmp(ssl->type, "sha512224") == 0 || \
+		ft_strcmp(ssl->type, "sha512256") == 0)
+		do_sha512(av[ssl->pars], ssl);
 		do_sha512(ssl->stdin, ssl);
 	ft_putstr("\n");
 }
@@ -89,7 +85,10 @@ void					file_rotat_512(t_s5 *ssl, char **av)
 		file_no_rotat_512(ssl, av);
 	else
 	{
-		if (ft_strcmp(ssl->type, "sha512") == 0)
+		if (ft_strcmp(ssl->type, "sha384") == 0 || \
+			ft_strcmp(ssl->type, "sha512") == 0 || \
+			ft_strcmp(ssl->type, "sha512224") == 0 || \
+			ft_strcmp(ssl->type, "sha512256") == 0)
 			do_sha512(ssl->stdin, ssl);
 		if (!(ssl->flag.q == 1))
 		{
@@ -104,6 +103,15 @@ void					file_rotat_512(t_s5 *ssl, char **av)
 	ssl->pars++;
 }
 
+void					sha384_print(t_s5 *ctx)
+{
+	char			*ret;
+
+	ret = ft_itoa_hex_512(ctx->state, 96, 0, 'B');
+	write(1, ret, 96);
+	free(ret);
+}
+
 void					sha512_print(t_s5 *ctx)
 {
 	char			*ret;
@@ -113,4 +121,20 @@ void					sha512_print(t_s5 *ctx)
 	free(ret);
 }
 
+void					sha512224_print(t_s5 *ctx)
+{
+	char			*ret;
 
+	ret = ft_itoa_hex_512(ctx->state, 56, 0, 'B');
+	write(1, ret, 56);
+	free(ret);
+}
+
+void					sha512256_print(t_s5 *ctx)
+{
+	char			*ret;
+
+	ret = ft_itoa_hex_512(ctx->state, 64, 0, 'B');
+	write(1, ret, 64);
+	free(ret);
+}

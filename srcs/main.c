@@ -97,7 +97,10 @@ void				decision_maker512(t_s5 *ssl, int ac, char **av)
 		gnl_ignore_nl(0, &ssl->stdin);
 		if (ssl->flag.p == 1)
 			ft_putstr(ssl->stdin);
-		if (ft_strcmp(ssl->type, "sha512") == 0)
+		if (ft_strcmp(ssl->type, "sha384") == 0 || \
+			ft_strcmp(ssl->type, "sha512") == 0 || \
+			ft_strcmp(ssl->type, "sha512224") == 0 || \
+			ft_strcmp(ssl->type, "sha512256") == 0)
 			do_sha512(ssl->stdin, ssl);
 		ft_putstr("\n");
 		free(ssl->stdin);
@@ -128,7 +131,10 @@ int					main(int ac, char **av)
 		ssl.type = av[1];
 		decision_maker(&ssl, ac, av);
 	}
-	else if (ft_strcmp(av[1], "sha512") == 0)
+	else if (ft_strcmp(av[1], "sha384") == 0 || \
+			ft_strcmp(av[1], "sha512") == 0 || \
+			ft_strcmp(av[1], "sha512224") == 0 || \
+			ft_strcmp(av[1], "sha512256") == 0)
 	{
 		ssl1.type = av[1];
 		decision_maker512(&ssl1, ac, av);

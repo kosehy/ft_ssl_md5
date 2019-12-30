@@ -12,22 +12,6 @@
 
 #include "ft_ssl.h"
 
-t_wd 					rot_left(t_wd x, t_wd n)
-{
-	t_wd	tmp;
-
-	tmp = (x << n) | (x >> (32 - n));
-	return (tmp);
-}
-
-t_wd 					rot_right(t_wd x, t_wd n)
-{
-	t_wd	tmp;
-
-	tmp = (x >> n) | (x << (32 - n));
-	return (tmp);
-}
-
 void					aux_f(t_ssl *ssl, t_wd i)
 {
 	ssl->f = (ssl->b & ssl->c) | (~ssl->b & ssl->d);

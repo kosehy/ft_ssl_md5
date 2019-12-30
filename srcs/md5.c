@@ -50,5 +50,12 @@ void				do_sha512(char *str, t_s5 *ssl)
 {
 	if (sha512(ssl, str, ft_strlen(str)) == -1)
 		return ;
-	sha512_print(ssl);
+	if (ft_strcmp(ssl->type, "sha384") == 0)
+		sha384_print(ssl);
+	else if (ft_strcmp(ssl->type, "sha512") == 0)
+		sha512_print(ssl);
+	else if (ft_strcmp(ssl->type, "sha512224") == 0)
+		sha512224_print(ssl);
+	else if (ft_strcmp(ssl->type, "sha512256") == 0)
+		sha512256_print(ssl);
 }
