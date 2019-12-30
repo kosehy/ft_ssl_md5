@@ -66,12 +66,40 @@ typedef struct			s_ssl
 	int 				str;
 	char 				*stdin;
 	char				*byte;
-	t_wd 				**input;
+	char				*type;
 	int 				blocks;
-	int 				targets;
 	size_t 				len;
 	t_wd 				w[64];
 }						t_ssl;
+
+typedef struct			s_s5
+{
+	int					datalen;
+	uint64_t			state[8];
+	uint64_t			a;
+	uint64_t			b;
+	uint64_t			c;
+	uint64_t			d;
+	uint64_t			e;
+	uint64_t			f;
+	uint64_t			g;
+	uint64_t			h;
+	uint64_t 			s_data[6];
+	uint64_t 			*t;
+	uint64_t 			*byte_32;
+	t_flag 				flag;
+	int 				s;
+	int 				n_file;
+	int 				pars;
+	int 				fd;
+	int 				str;
+	char 				*stdin;
+	char				*byte;
+	char				*type;
+	int 				blocks;
+	size_t 				len;
+	uint64_t 			w[64];
+}						t_s5;
 
 /*
 ** ft_auxiliary.c
@@ -94,15 +122,18 @@ int						md5(t_ssl *md5, unsigned char *str, int len);
 ** print.c
 */
 
-int 					bad_file(t_ssl *ssl, char **av);
+int						bad_file(t_ssl *ssl, char **av);
+int						bad_file_512(t_s5 *ssl, char **av);
 void					gnl_ignore_nl(int fd, char **ptr);
-int 					print_s(t_ssl *ssl, int ac, char **av);
+int						print_s(t_ssl *ssl, int ac, char **av);
+int						print_s_512(t_s5 *ssl, int ac, char **av);
 
 
 /*
 ** md5.c
 */
 
+void					do_sha512(char *str, t_s5 *ssl);
 void					do_sha256(char *str, t_ssl *ssl);
 void	 				do_md5(char *str, t_ssl *ssl);
 
@@ -110,9 +141,10 @@ void	 				do_md5(char *str, t_ssl *ssl);
 ** rotate.c
 */
 
-void	 				file_rotat(t_ssl *ssl, char **av);
+void					file_rotat(t_ssl *ssl, char **av);
 void					no_rotation(t_ssl *ssl, char **av);
-void 					rotate_s(t_ssl *ssl, char **av);
+void					rotate_s(t_ssl *ssl, char **av);
+void					sha256_var_assign(t_ssl *ssl, char order);
 
 /*
 ** util.c
@@ -123,10 +155,26 @@ char					*ft_itoa_base_extra(uint32_t n, int base);
 char 					*add_zero(char *str);
 
 /*
+** util_sha512.c
+*/
+
+char					*ft_itoa_hex_512(uint64_t state[], int size, int i, char end);
+void					file_rotat_512(t_s5 *ssl, char **av);
+void					no_rotation_512(t_s5 *ssl, char **av);
+void					rotate_s_512(t_s5 *ssl, char **av);
+void					sha512_print(t_s5 *ctx);
+
+/*
 ** sha256.c
 */
 
 int 					sha256(t_ssl *ssl, char *str, int len);
+
+/*
+** sha512.c
+*/
+
+int 					sha512(t_s5 *ssl, char *str, int len);
 
 /*
 ** util_sha.c
@@ -140,5 +188,13 @@ void					swap_words(t_ssl *ssl, int i);
 
 void					init_sha224(t_ssl *ssl);
 void					init_sha256(t_ssl *ssl);
+void					init_sha512(t_s5 *ssl);
+
+/*
+** auxiliary_sha512.c
+*/
+
+u_int64_t				rot_right_64(u_int64_t x, u_int64_t n);
+void					swap_words_512(t_s5 *ssl, int i);
 
 #endif

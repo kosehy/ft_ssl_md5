@@ -30,32 +30,6 @@ void		sha256_padding(char *str, uint32_t **input, t_ssl *ssl)
 	input[ssl->blocks - 1][15] = (uint32_t)((ssl->len * 8) & 0xffffffff);
 }
 
-void		sha256_var_assign(t_ssl *ssl, char order)
-{
-	if (order == '<')
-	{
-		ssl->a = ssl->state[0];
-		ssl->b = ssl->state[1];
-		ssl->c = ssl->state[2];
-		ssl->d = ssl->state[3];
-		ssl->e = ssl->state[4];
-		ssl->f = ssl->state[5];
-		ssl->g = ssl->state[6];
-		ssl->h = ssl->state[7];
-	}
-	else if (order == '>')
-	{
-		ssl->state[0] += ssl->a;
-		ssl->state[1] += ssl->b;
-		ssl->state[2] += ssl->c;
-		ssl->state[3] += ssl->d;
-		ssl->state[4] += ssl->e;
-		ssl->state[5] += ssl->f;
-		ssl->state[6] += ssl->g;
-		ssl->state[7] += ssl->h;
-	}
-}
-
 /*
 ** prepare the message schedule
 ** @param input
