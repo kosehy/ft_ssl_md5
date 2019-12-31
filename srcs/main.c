@@ -14,64 +14,67 @@
 
 static void			check_flag(t_ssl *ssl, int ac, char **av)
 {
-	int	i;
-
-	i = 2;
-	ssl->s = 0;
-	while (i < ac)
+	ssl->flag.i = 2;
+	ssl->flag.p = 0;
+	ssl->flag.q = 0;
+	ssl->flag.r = 0;
+	ssl->flag.s = 0;
+	while (ssl->flag.i < ac)
 	{
-		if (ft_strcmp("-p", av[i]) == 0)
+		if (ft_strcmp("-p", av[ssl->flag.i]) == 0)
 			ssl->flag.p = 1;
-		else if (ft_strcmp("-q", av[i]) == 0)
+		else if (ft_strcmp("-q", av[ssl->flag.i]) == 0)
 			ssl->flag.q = 1;
-		else if (ft_strcmp("-r", av[i]) == 0)
+		else if (ft_strcmp("-r", av[ssl->flag.i]) == 0)
 			ssl->flag.r = 1;
-		else if (ft_strcmp("-s", av[i]) == 0)
+		else if (ft_strcmp("-s", av[ssl->flag.i]) == 0)
 		{
-			i++;
+			ssl->flag.i++;
 			ssl->flag.s++;
 		}
 		else
 			break ;
-		i++;
+		ssl->flag.i++;
 	}
-	ssl->n_file = i - ac;
+	ssl->n_file = ssl->flag.i - ac;
 }
 
 static void			check_flag_512(t_s5 *ssl, int ac, char **av)
 {
-	int	i;
-
-	i = 2;
+	ssl->flag.i = 2;
+	ssl->flag.p = 0;
+	ssl->flag.q = 0;
+	ssl->flag.r = 0;
+	ssl->flag.s = 0;
 	ssl->s = 0;
-	while (i < ac)
+	while (ssl->flag.i < ac)
 	{
-		if (ft_strcmp("-p", av[i]) == 0)
+		if (ft_strcmp("-p", av[ssl->flag.i]) == 0)
 			ssl->flag.p = 1;
-		else if (ft_strcmp("-q", av[i]) == 0)
+		else if (ft_strcmp("-q", av[ssl->flag.i]) == 0)
 			ssl->flag.q = 1;
-		else if (ft_strcmp("-r", av[i]) == 0)
+		else if (ft_strcmp("-r", av[ssl->flag.i]) == 0)
 			ssl->flag.r = 1;
-		else if (ft_strcmp("-s", av[i]) == 0)
+		else if (ft_strcmp("-s", av[ssl->flag.i]) == 0)
 		{
-			i++;
+			ssl->flag.i++;
 			ssl->flag.s++;
 		}
 		else
 			break ;
-		i++;
+		ssl->flag.i++;
 	}
-	ssl->n_file = i - ac;
+	ssl->n_file = ssl->flag.i - ac;
 }
 
 void				decision_maker(t_ssl *ssl, int ac, char **av)
 {
 	ssl->type = av[1];
 	check_flag(ssl, ac, av);
-	if ((ssl->flag.p == 1) || (!ssl->n_file && !ssl->s))
+	if ((ssl->flag.p) || (!ssl->n_file && !ssl->flag.s))
 	{
 		gnl_ignore_nl(0, &ssl->stdin);
-		if (ssl->flag.p == 1)
+		if (ssl->flag.p)
 			ft_putstr(ssl->stdin);
 		if (ft_strcmp(ssl->type, "sha224") == 0)
 			do_sha256(ssl->stdin, ssl);
@@ -94,10 +97,10 @@ void				decision_maker512(t_s5 *ssl, int ac, char **av)
 {
 	ssl->type = av[1];
 	check_flag_512(ssl, ac, av);
-	if ((ssl->flag.p == 1) || (!ssl->n_file && !ssl->s))
+	if ((ssl->flag.p) || (!ssl->n_file && !ssl->flag.s))
 	{
 		gnl_ignore_nl(0, &ssl->stdin);
-		if (ssl->flag.p == 1)
+		if (ssl->flag.p)
 			ft_putstr(ssl->stdin);
 		if (ft_strcmp(ssl->type, "sha384") == 0 || \
 			ft_strcmp(ssl->type, "sha512") == 0 || \

@@ -29,6 +29,7 @@ typedef unsigned int	t_wd;
 
 typedef struct			s_flag
 {
+	int					i;
 	int					p;
 	int					q;
 	int					r;
