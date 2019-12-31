@@ -40,7 +40,7 @@ void					sha256_var_assign(t_ssl *ssl, char order)
 
 void					no_rotation(t_ssl *ssl, char **av)
 {
-	if (!(ssl->flag.q == 1))
+	if (!(ssl->flag.q))
 	{
 		if (ft_strcmp(ssl->type, "sha224") == 0)
 			ft_putstr("SHA224 (\"");
@@ -68,7 +68,7 @@ void					rotate_s(t_ssl *ssl, char **av)
 		do_sha256(av[ssl->pars], ssl);
 	else
 		do_md5(av[ssl->pars], ssl);
-	if (!(ssl->flag.q == 1))
+	if (!(ssl->flag.q))
 	{
 		ft_putstr(" ");
 		ft_putendl(av[ssl->pars]);
@@ -79,7 +79,7 @@ void					rotate_s(t_ssl *ssl, char **av)
 
 static void				file_no_rotat(t_ssl *ssl, char **av)
 {
-	if (!(ssl->flag.q == 1))
+	if (!(ssl->flag.q))
 	{
 		if (ft_strcmp(ssl->type, "sha224") == 0)
 			ft_putstr("SHA224(");
@@ -104,7 +104,7 @@ void					file_rotat(t_ssl *ssl, char **av)
 	if (bad_file(ssl, av) == -1)
 		return ;
 	gnl_ignore_nl(ssl->fd, &ssl->stdin);
-	if (!(ssl->flag.r == 1))
+	if (!(ssl->flag.r))
 		file_no_rotat(ssl, av);
 	else
 	{
@@ -114,7 +114,7 @@ void					file_rotat(t_ssl *ssl, char **av)
 			do_sha256(ssl->stdin, ssl);
 		else
 			do_md5(ssl->stdin, ssl);
-		if (!(ssl->flag.q == 1))
+		if (!(ssl->flag.q))
 		{
 			ft_putstr(" ");
 			ft_putstr(av[ssl->pars]);

@@ -47,7 +47,7 @@ int						print_s(t_ssl *ssl, int ac, char **av)
 		ssl->pars++;
 		if (ssl->pars < ac)
 		{
-			if (!(ssl->flag.r == 1))
+			if (!(ssl->flag.r))
 				no_rotation(ssl, av);
 			else
 				rotate_s(ssl, av);
@@ -72,7 +72,7 @@ int						print_s_512(t_s5 *ssl, int ac, char **av)
 		ssl->pars++;
 		if (ssl->pars < ac)
 		{
-			if (!(ssl->flag.r == 1))
+			if (!(ssl->flag.r))
 				no_rotation_512(ssl, av);
 			else
 				rotate_s_512(ssl, av);

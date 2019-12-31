@@ -14,7 +14,7 @@
 
 void					no_rotation_512(t_s5 *ssl, char **av)
 {
-	if (!(ssl->flag.q == 1))
+	if (!(ssl->flag.q))
 	{
 		if (ft_strcmp(ssl->type, "sha384") == 0)
 			ft_putstr("SHA384 (\"");
@@ -42,7 +42,7 @@ void					rotate_s_512(t_s5 *ssl, char **av)
 		ft_strcmp(ssl->type, "sha512224") == 0 || \
 		ft_strcmp(ssl->type, "sha512256") == 0)
 		do_sha512(av[ssl->pars], ssl);
-	if (!(ssl->flag.q == 1))
+	if (!(ssl->flag.q))
 	{
 		ft_putstr(" ");
 		ft_putendl(av[ssl->pars]);
@@ -53,7 +53,7 @@ void					rotate_s_512(t_s5 *ssl, char **av)
 
 static void				file_no_rotat_512(t_s5 *ssl, char **av)
 {
-	if (!(ssl->flag.q == 1))
+	if (!(ssl->flag.q))
 	{
 		if (ft_strcmp(ssl->type, "sha384") == 0)
 			ft_putstr("SHA384 (\"");
@@ -80,7 +80,7 @@ void					file_rotat_512(t_s5 *ssl, char **av)
 		if (bad_file_512(ssl, av) == -1)
 			return ;
 	gnl_ignore_nl(ssl->fd, &ssl->stdin);
-	if (!(ssl->flag.r == 1))
+	if (!(ssl->flag.r))
 		file_no_rotat_512(ssl, av);
 	else
 	{
@@ -89,7 +89,7 @@ void					file_rotat_512(t_s5 *ssl, char **av)
 			ft_strcmp(ssl->type, "sha512224") == 0 || \
 			ft_strcmp(ssl->type, "sha512256") == 0)
 			do_sha512(ssl->stdin, ssl);
-		if (!(ssl->flag.q == 1))
+		if (!(ssl->flag.q))
 		{
 			ft_putstr(" ");
 			ft_putstr(av[ssl->pars]);
